@@ -7,7 +7,7 @@
 同时我们选择官方所提供的预训练模型作为base模型在其基础上进行微调。
 - [任务详情](https://github.com/open-mmlab/OpenMMLabCamp/discussions/566)
 - base模型[Config](https://github.com/open-mmlab/mmpretrain/blob/mmcls-1.x/configs/efficientnet/efficientnet-b2_8xb32_in1k.py)和[权重](https://download.openmmlab.com/mmclassification/v0/efficientnet/efficientnet-b1_3rdparty-ra-noisystudent_in1k_20221103-756bcbc0.pth)
-- 微调使用的模型[Config](./mmpretrain/configs/efficientnet/efficientnet-b1_ingarbage.py)和[权重]()
+- 微调使用的模型[Config](./mmpretrain/configs/efficientnet/efficientnet-b1_ingarbage.py)
 
 # 2 训练/测试环境
 本次项目基于以下环境进行训练/测试：
