@@ -36,6 +36,8 @@
 - 3.导入Garbage类，同时在__all__中添加Garbage即可完成注册
 ![garbage_register](data/img/data_register.png)
 
+官方教学文档：[点击](https://mmpretrain.readthedocs.io/zh_CN/latest/advanced_guides/datasets.html)
+
 # 4 模型训练与功能测试
 
 ## 4.1 模型训练
@@ -117,7 +119,43 @@ accuracy/top1: 88.9800  data_time: 0.0337  time: 0.0813
 
 4. 速度测试完成后，点击"查看测速报告"。
 
-本次测速报告详情：[点击](https://openmmlab-deploee.oss-cn-shanghai.aliyuncs.com/tmp/profile_speed/834145.txt)
+部分测试结果
+```
+========== cmd ==========
+LD_LIBRARY_PATH=/tmp/aarch64-jetson-orin+jetpack5.0.1/install/lib:/tmp/aarch64-jetson-orin+jetpack5.0.1/install/ocv/lib:${LD_LIBRARY_PATH} /tmp/aarch64-jetson-orin+jetpack5.0.1/install/bin/classifier --device cuda /tmp/datadir /tmp/datadir/tv4mdW.jpg
+========== stdout ==========
+[2023-08-01 14:53:53.392] [mmdeploy] [info] [model.cpp:35] [DirectoryModel] Load model: "/tmp/datadir"
+label: 0, label_id: 41, score: 0.9577
+label: 1, label_id: 127, score: 0.0296
+label: 2, label_id: 65, score: 0.0025
+label: 3, label_id: 156, score: 0.0023
+label: 4, label_id: 25, score: 0.0006
+========== stderr ==========
+None
+========== analyze ==========
++---------------------------+--------+-------+--------+----------+----------+----------+
+|           name            | occupy | usage | n_call |  t_mean  |  t_50%   |  t_90%   |
++===========================+========+=======+========+==========+==========+==========+
+| ./Pipeline                | -      | -     | 1      | 1014.730 | 1014.730 | 1014.730 |
++---------------------------+--------+-------+--------+----------+----------+----------+
+|     Preprocess/Compose    | -      | -     | 1      | 2.141    | 2.141    | 2.141    |
++---------------------------+--------+-------+--------+----------+----------+----------+
+|         LoadImageFromFile | 0.002  | 0.002 | 1      | 1.588    | 1.588    | 1.588    |
++---------------------------+--------+-------+--------+----------+----------+----------+
+|         CenterCrop        | 0.000  | 0.000 | 1      | 0.209    | 0.209    | 0.209    |
++---------------------------+--------+-------+--------+----------+----------+----------+
+|         Normalize         | 0.000  | 0.000 | 1      | 0.177    | 0.177    | 0.177    |
++---------------------------+--------+-------+--------+----------+----------+----------+
+|         ImageToTensor     | 0.000  | 0.000 | 1      | 0.140    | 0.140    | 0.140    |
++---------------------------+--------+-------+--------+----------+----------+----------+
+|         Collect           | 0.000  | 0.000 | 1      | 0.016    | 0.016    | 0.016    |
++---------------------------+--------+-------+--------+----------+----------+----------+
+|     efficientnet          | 0.998  | 0.998 | 1      | 1012.415 | 1012.415 | 1012.415 |
++---------------------------+--------+-------+--------+----------+----------+----------+
+|     postprocess           | 0.000  | 0.000 | 1      | 0.107    | 0.107    | 0.107    |
++---------------------------+--------+-------+--------+----------+----------+----------+
+```
+本次测速报告详情：[点击](https://openmmlab-deploee.oss-cn-shanghai.aliyuncs.com/tmp/profile_speed/3b7310.txt)
 
 # 6 问题以及解决方案
 1. 问题：[模型转换页面](https://platform.openmmlab.com/deploee/task-convert-list)无法使用基于mmpretrain进行微调的模型
@@ -125,9 +163,10 @@ accuracy/top1: 88.9800  data_time: 0.0337  time: 0.0813
 解决方案：需要基于mmcls>=1.0.0rc5进行训练，因此需要切换到mmcls-1.x分支下再进行训练
 ```
 
-2. 问题：由于老版本的mmdeploy没有不支持EfficientnetCenterCrop预处理，在测速时会进行报错
+2. 问题：在进行[模型测速](https://platform.openmmlab.com/deploee/task-profile-list)时，由于老版本的mmdeploy没有不支持EfficientnetCenterCrop预处理，在测速时会进行报错
 ```
 解决方案：在配置文件中需要将EfficientnetCenterCrop和EfficientnetRandomCrop修改为老版本支持的CenterCrop和RandomResizedCrop
+注：修改完之后重新训练相较于之前会损失一定的精度
 ```
 
 # 7 致谢
