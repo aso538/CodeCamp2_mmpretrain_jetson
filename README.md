@@ -81,7 +81,7 @@ accuracy/top1: 88.9800  data_time: 0.0337  time: 0.0813
 1. 进入[模型转换页面](https://platform.openmmlab.com/deploee/task-convert-list)， 点击"模型转换"，点击“新建转换任务”。
 
 2. 输入内容如下图所示：
-<img src="./data/model_convert.png" alt="model_convert.png" style="zoom: 100%;" />"OpenMMLab 算法"：选择"mmcls v1.0.0rc5"。
+<img src="./data/img/model_convert.png" alt="model_convert.png" style="zoom: 100%;" />"OpenMMLab 算法"：选择"mmcls v1.0.0rc5"。
 
     "模型训练配置"：上传 模型work_dir下训练所使用的配置文件。
 
@@ -105,7 +105,7 @@ accuracy/top1: 88.9800  data_time: 0.0337  time: 0.0813
 
 1. 进入[模型测速页面](https://platform.openmmlab.com/deploee/task-profile-list)， 点击"模型测速"，点击“新建测速任务”。
 
-2. 输入内容如下图所示：<img src="data/speed_test.png" alt="speed_test.png" style="zoom: 100%;" />"任务类型"：选择"mmcls v1.0.0rc5"。
+2. 输入内容如下图所示：<img src="data/img/speed_test.png" alt="speed_test.png" style="zoom: 100%;" />"任务类型"：选择"mmcls v1.0.0rc5"。
 
     "模型"：上传上一步下载的zip文件。
 
