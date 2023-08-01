@@ -1,8 +1,4 @@
-/pokemon/bulbasaur/
-/pokemon/charmander/
-/pokemon/mewtwo/
-/pokemon/pikachu/
-/pokemon/squirtle/
+/pokemon
 /mmpretrain/.mim/
 /garbage/0/
 /garbage/1/
@@ -162,5 +158,6 @@
 /garbage/155/
 /garbage/156/
 /garbage/157/
-*.pth
+#*.pth
 .idea/
+/work_dir

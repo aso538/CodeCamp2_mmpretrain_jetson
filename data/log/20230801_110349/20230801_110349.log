@@ -1,0 +1,1506 @@
+2023/08/01 11:03:57 - mmengine - INFO - 
+------------------------------------------------------------
+System environment:
+    sys.platform: win32
+    Python: 3.7.16 (default, Jan 17 2023, 16:06:28) [MSC v.1916 64 bit (AMD64)]
+    CUDA available: True
+    numpy_random_seed: 570592404
+    GPU 0: NVIDIA GeForce RTX 2060
+    CUDA_HOME: C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2
+    NVCC: Cuda compilation tools, release 10.2, V10.2.8
+    MSVC: 用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.28.29915 版
+    GCC: n/a
+    PyTorch: 1.10.1+cu102
+    PyTorch compiling details: PyTorch built with:
+  - C++ Version: 199711
+  - MSVC 192829337
+  - Intel(R) Math Kernel Library Version 2020.0.2 Product Build 20200624 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v2.2.3 (Git Hash 7336ca9f055cf1bfa13efb658fe15dc9b41f0740)
+  - OpenMP 2019
+  - LAPACK is enabled (usually provided by MKL)
+  - CPU capability usage: AVX2
+  - CUDA Runtime 10.2
+  - NVCC architecture flags: -gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_37,code=compute_37
+  - CuDNN 7.6.5
+  - Magma 2.5.4
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=10.2, CUDNN_VERSION=7.6.5, CXX_COMPILER=C:/w/b/windows/tmp_bin/sccache-cl.exe, CXX_FLAGS=/DWIN32 /D_WINDOWS /GR /EHsc /w /bigobj -DUSE_PTHREADPOOL -openmp:experimental -IC:/w/b/windows/mkl/include -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOCUPTI -DUSE_FBGEMM -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DEDGE_PROFILER_USE_KINETO, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=1.10.1, USE_CUDA=ON, USE_CUDNN=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=OFF, USE_NNPACK=OFF, USE_OPENMP=ON, 
+
+    TorchVision: 0.11.2+cu102
+    OpenCV: 4.7.0
+    MMEngine: 0.8.3
+
+Runtime environment:
+    cudnn_benchmark: False
+    dist_cfg: {'backend': 'nccl'}
+    mp_cfg: {'mp_start_method': 'fork', 'opencv_num_threads': 0}
+    deterministic: False
+    seed: 570592404
+    Distributed launcher: none
+    Distributed training: False
+    GPU number: 1
+------------------------------------------------------------
+
+2023/08/01 11:03:57 - mmengine - INFO - Config:
+auto_scale_lr = dict(base_batch_size=16)
+data_preprocessor = dict(
+    mean=[
+        123.675,
+        116.28,
+        103.53,
+    ],
+    num_classes=158,
+    std=[
+        58.395,
+        57.12,
+        57.375,
+    ],
+    to_rgb=True)
+dataset_type = 'Garbage'
+default_hooks = dict(
+    checkpoint=dict(interval=1, type='CheckpointHook'),
+    logger=dict(interval=100, type='LoggerHook'),
+    param_scheduler=dict(type='ParamSchedulerHook'),
+    sampler_seed=dict(type='DistSamplerSeedHook'),
+    timer=dict(type='IterTimerHook'),
+    visualization=dict(enable=False, type='VisualizationHook'))
+default_scope = 'mmcls'
+env_cfg = dict(
+    cudnn_benchmark=False,
+    dist_cfg=dict(backend='nccl'),
+    mp_cfg=dict(mp_start_method='fork', opencv_num_threads=0))
+launcher = 'none'
+load_from = '../efficientnet-b1_3rdparty-ra-noisystudent_in1k_20221103-756bcbc0.pth'
+log_level = 'INFO'
+model = dict(
+    backbone=dict(arch='b1', type='EfficientNet'),
+    head=dict(
+        in_channels=1280,
+        loss=dict(loss_weight=1.0, type='CrossEntropyLoss'),
+        num_classes=158,
+        topk=(
+            1,
+            5,
+        ),
+        type='LinearClsHead'),
+    neck=dict(type='GlobalAveragePooling'),
+    type='ImageClassifier')
+optim_wrapper = dict(
+    optimizer=dict(lr=0.01, momentum=0.9, type='SGD', weight_decay=0.0001))
+param_scheduler = dict(
+    by_epoch=True, gamma=0.1, milestones=[
+        2,
+        5,
+        8,
+    ], type='MultiStepLR')
+randomness = dict(deterministic=False, seed=None)
+resume = False
+test_cfg = dict()
+test_dataloader = dict(
+    batch_size=16,
+    collate_fn=dict(type='default_collate'),
+    dataset=dict(
+        ann_file='test.txt',
+        data_root='../../garbage',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(crop_size=240, type='EfficientNetCenterCrop'),
+            dict(type='PackClsInputs'),
+        ],
+        split='',
+        type='Garbage'),
+    num_workers=4,
+    persistent_workers=True,
+    pin_memory=True,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+test_evaluator = dict(topk=(1, ), type='Accuracy')
+test_pipeline = [
+    dict(type='LoadImageFromFile'),
+    dict(crop_size=240, type='EfficientNetCenterCrop'),
+    dict(type='PackClsInputs'),
+]
+train_cfg = dict(by_epoch=True, max_epochs=10, val_interval=1)
+train_dataloader = dict(
+    batch_size=16,
+    collate_fn=dict(type='default_collate'),
+    dataset=dict(
+        ann_file='train.txt',
+        data_root='../../garbage',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(scale=240, type='EfficientNetRandomCrop'),
+            dict(direction='horizontal', prob=0.5, type='RandomFlip'),
+            dict(type='PackClsInputs'),
+        ],
+        split='',
+        type='Garbage'),
+    num_workers=4,
+    persistent_workers=True,
+    pin_memory=True,
+    sampler=dict(shuffle=True, type='DefaultSampler'))
+train_pipeline = [
+    dict(type='LoadImageFromFile'),
+    dict(scale=240, type='EfficientNetRandomCrop'),
+    dict(direction='horizontal', prob=0.5, type='RandomFlip'),
+    dict(type='PackClsInputs'),
+]
+val_cfg = dict()
+val_dataloader = dict(
+    batch_size=32,
+    collate_fn=dict(type='default_collate'),
+    dataset=dict(
+        ann_file='val.txt',
+        data_root='../../garbage',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(crop_size=240, type='EfficientNetCenterCrop'),
+            dict(type='PackClsInputs'),
+        ],
+        type='ImageNet'),
+    num_workers=5,
+    persistent_workers=True,
+    pin_memory=True,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+val_evaluator = dict(
+    topk=(
+        1,
+        5,
+    ), type='Accuracy')
+vis_backends = [
+    dict(type='LocalVisBackend'),
+]
+visualizer = dict(
+    type='ClsVisualizer', vis_backends=[
+        dict(type='LocalVisBackend'),
+    ])
+work_dir = '../work_dir/garbage'
+
+2023/08/01 11:03:58 - mmengine - INFO - Distributed training is not used, all SyncBatchNorm (SyncBN) layers in the model will be automatically reverted to BatchNormXd layers if they are used.
+2023/08/01 11:03:58 - mmengine - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+before_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) DistSamplerSeedHook                
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_train_epoch:
+(NORMAL      ) IterTimerHook                      
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_val_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_val_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) VisualizationHook                  
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_val_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_test_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_test_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_test_iter:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) VisualizationHook                  
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_run:
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+Name of parameter - Initialization information
+
+backbone.layers.0.conv.weight - torch.Size([32, 3, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.0.bn.weight - torch.Size([32]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.0.bn.bias - torch.Size([32]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.1.0.depthwise_conv.conv.weight - torch.Size([32, 1, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.1.0.depthwise_conv.bn.weight - torch.Size([32]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.1.0.depthwise_conv.bn.bias - torch.Size([32]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.1.0.se.conv1.conv.weight - torch.Size([8, 32, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.1.0.se.conv1.conv.bias - torch.Size([8]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.1.0.se.conv2.conv.weight - torch.Size([32, 8, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.1.0.se.conv2.conv.bias - torch.Size([32]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.1.0.linear_conv.conv.weight - torch.Size([16, 32, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.1.0.linear_conv.bn.weight - torch.Size([16]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.1.0.linear_conv.bn.bias - torch.Size([16]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.1.1.depthwise_conv.conv.weight - torch.Size([16, 1, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.1.1.depthwise_conv.bn.weight - torch.Size([16]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.1.1.depthwise_conv.bn.bias - torch.Size([16]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.1.1.se.conv1.conv.weight - torch.Size([4, 16, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.1.1.se.conv1.conv.bias - torch.Size([4]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.1.1.se.conv2.conv.weight - torch.Size([16, 4, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.1.1.se.conv2.conv.bias - torch.Size([16]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.1.1.linear_conv.conv.weight - torch.Size([16, 16, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.1.1.linear_conv.bn.weight - torch.Size([16]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.1.1.linear_conv.bn.bias - torch.Size([16]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.0.expand_conv.conv.weight - torch.Size([96, 16, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.2.0.expand_conv.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.0.expand_conv.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.0.depthwise_conv.conv.weight - torch.Size([96, 1, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.2.0.depthwise_conv.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.0.depthwise_conv.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.0.se.conv1.conv.weight - torch.Size([4, 96, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.2.0.se.conv1.conv.bias - torch.Size([4]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.0.se.conv2.conv.weight - torch.Size([96, 4, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.2.0.se.conv2.conv.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.0.linear_conv.conv.weight - torch.Size([24, 96, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.2.0.linear_conv.bn.weight - torch.Size([24]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.0.linear_conv.bn.bias - torch.Size([24]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.1.expand_conv.conv.weight - torch.Size([144, 24, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.2.1.expand_conv.bn.weight - torch.Size([144]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.1.expand_conv.bn.bias - torch.Size([144]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.1.depthwise_conv.conv.weight - torch.Size([144, 1, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.2.1.depthwise_conv.bn.weight - torch.Size([144]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.1.depthwise_conv.bn.bias - torch.Size([144]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.1.se.conv1.conv.weight - torch.Size([6, 144, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.2.1.se.conv1.conv.bias - torch.Size([6]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.1.se.conv2.conv.weight - torch.Size([144, 6, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.2.1.se.conv2.conv.bias - torch.Size([144]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.1.linear_conv.conv.weight - torch.Size([24, 144, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.2.1.linear_conv.bn.weight - torch.Size([24]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.1.linear_conv.bn.bias - torch.Size([24]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.2.expand_conv.conv.weight - torch.Size([144, 24, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.2.2.expand_conv.bn.weight - torch.Size([144]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.2.expand_conv.bn.bias - torch.Size([144]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.2.depthwise_conv.conv.weight - torch.Size([144, 1, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.2.2.depthwise_conv.bn.weight - torch.Size([144]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.2.depthwise_conv.bn.bias - torch.Size([144]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.2.se.conv1.conv.weight - torch.Size([6, 144, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.2.2.se.conv1.conv.bias - torch.Size([6]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.2.se.conv2.conv.weight - torch.Size([144, 6, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.2.2.se.conv2.conv.bias - torch.Size([144]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.2.linear_conv.conv.weight - torch.Size([24, 144, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.2.2.linear_conv.bn.weight - torch.Size([24]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.2.2.linear_conv.bn.bias - torch.Size([24]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.0.expand_conv.conv.weight - torch.Size([144, 24, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.3.0.expand_conv.bn.weight - torch.Size([144]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.0.expand_conv.bn.bias - torch.Size([144]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.0.depthwise_conv.conv.weight - torch.Size([144, 1, 5, 5]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.3.0.depthwise_conv.bn.weight - torch.Size([144]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.0.depthwise_conv.bn.bias - torch.Size([144]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.0.se.conv1.conv.weight - torch.Size([6, 144, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.3.0.se.conv1.conv.bias - torch.Size([6]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.0.se.conv2.conv.weight - torch.Size([144, 6, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.3.0.se.conv2.conv.bias - torch.Size([144]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.0.linear_conv.conv.weight - torch.Size([40, 144, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.3.0.linear_conv.bn.weight - torch.Size([40]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.0.linear_conv.bn.bias - torch.Size([40]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.1.expand_conv.conv.weight - torch.Size([240, 40, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.3.1.expand_conv.bn.weight - torch.Size([240]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.1.expand_conv.bn.bias - torch.Size([240]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.1.depthwise_conv.conv.weight - torch.Size([240, 1, 5, 5]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.3.1.depthwise_conv.bn.weight - torch.Size([240]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.1.depthwise_conv.bn.bias - torch.Size([240]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.1.se.conv1.conv.weight - torch.Size([10, 240, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.3.1.se.conv1.conv.bias - torch.Size([10]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.1.se.conv2.conv.weight - torch.Size([240, 10, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.3.1.se.conv2.conv.bias - torch.Size([240]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.1.linear_conv.conv.weight - torch.Size([40, 240, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.3.1.linear_conv.bn.weight - torch.Size([40]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.1.linear_conv.bn.bias - torch.Size([40]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.2.expand_conv.conv.weight - torch.Size([240, 40, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.3.2.expand_conv.bn.weight - torch.Size([240]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.2.expand_conv.bn.bias - torch.Size([240]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.2.depthwise_conv.conv.weight - torch.Size([240, 1, 5, 5]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.3.2.depthwise_conv.bn.weight - torch.Size([240]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.2.depthwise_conv.bn.bias - torch.Size([240]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.2.se.conv1.conv.weight - torch.Size([10, 240, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.3.2.se.conv1.conv.bias - torch.Size([10]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.2.se.conv2.conv.weight - torch.Size([240, 10, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.3.2.se.conv2.conv.bias - torch.Size([240]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.2.linear_conv.conv.weight - torch.Size([40, 240, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.3.2.linear_conv.bn.weight - torch.Size([40]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.3.2.linear_conv.bn.bias - torch.Size([40]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.0.expand_conv.conv.weight - torch.Size([240, 40, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.0.expand_conv.bn.weight - torch.Size([240]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.0.expand_conv.bn.bias - torch.Size([240]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.0.depthwise_conv.conv.weight - torch.Size([240, 1, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.0.depthwise_conv.bn.weight - torch.Size([240]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.0.depthwise_conv.bn.bias - torch.Size([240]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.0.se.conv1.conv.weight - torch.Size([10, 240, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.0.se.conv1.conv.bias - torch.Size([10]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.0.se.conv2.conv.weight - torch.Size([240, 10, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.0.se.conv2.conv.bias - torch.Size([240]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.0.linear_conv.conv.weight - torch.Size([80, 240, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.0.linear_conv.bn.weight - torch.Size([80]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.0.linear_conv.bn.bias - torch.Size([80]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.1.expand_conv.conv.weight - torch.Size([480, 80, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.1.expand_conv.bn.weight - torch.Size([480]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.1.expand_conv.bn.bias - torch.Size([480]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.1.depthwise_conv.conv.weight - torch.Size([480, 1, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.1.depthwise_conv.bn.weight - torch.Size([480]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.1.depthwise_conv.bn.bias - torch.Size([480]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.1.se.conv1.conv.weight - torch.Size([20, 480, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.1.se.conv1.conv.bias - torch.Size([20]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.1.se.conv2.conv.weight - torch.Size([480, 20, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.1.se.conv2.conv.bias - torch.Size([480]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.1.linear_conv.conv.weight - torch.Size([80, 480, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.1.linear_conv.bn.weight - torch.Size([80]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.1.linear_conv.bn.bias - torch.Size([80]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.2.expand_conv.conv.weight - torch.Size([480, 80, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.2.expand_conv.bn.weight - torch.Size([480]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.2.expand_conv.bn.bias - torch.Size([480]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.2.depthwise_conv.conv.weight - torch.Size([480, 1, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.2.depthwise_conv.bn.weight - torch.Size([480]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.2.depthwise_conv.bn.bias - torch.Size([480]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.2.se.conv1.conv.weight - torch.Size([20, 480, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.2.se.conv1.conv.bias - torch.Size([20]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.2.se.conv2.conv.weight - torch.Size([480, 20, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.2.se.conv2.conv.bias - torch.Size([480]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.2.linear_conv.conv.weight - torch.Size([80, 480, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.2.linear_conv.bn.weight - torch.Size([80]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.2.linear_conv.bn.bias - torch.Size([80]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.3.expand_conv.conv.weight - torch.Size([480, 80, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.3.expand_conv.bn.weight - torch.Size([480]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.3.expand_conv.bn.bias - torch.Size([480]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.3.depthwise_conv.conv.weight - torch.Size([480, 1, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.3.depthwise_conv.bn.weight - torch.Size([480]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.3.depthwise_conv.bn.bias - torch.Size([480]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.3.se.conv1.conv.weight - torch.Size([20, 480, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.3.se.conv1.conv.bias - torch.Size([20]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.3.se.conv2.conv.weight - torch.Size([480, 20, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.3.se.conv2.conv.bias - torch.Size([480]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.3.linear_conv.conv.weight - torch.Size([80, 480, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.3.linear_conv.bn.weight - torch.Size([80]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.3.linear_conv.bn.bias - torch.Size([80]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.4.expand_conv.conv.weight - torch.Size([480, 80, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.4.expand_conv.bn.weight - torch.Size([480]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.4.expand_conv.bn.bias - torch.Size([480]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.4.depthwise_conv.conv.weight - torch.Size([480, 1, 5, 5]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.4.depthwise_conv.bn.weight - torch.Size([480]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.4.depthwise_conv.bn.bias - torch.Size([480]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.4.se.conv1.conv.weight - torch.Size([20, 480, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.4.se.conv1.conv.bias - torch.Size([20]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.4.se.conv2.conv.weight - torch.Size([480, 20, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.4.se.conv2.conv.bias - torch.Size([480]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.4.linear_conv.conv.weight - torch.Size([112, 480, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.4.linear_conv.bn.weight - torch.Size([112]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.4.linear_conv.bn.bias - torch.Size([112]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.5.expand_conv.conv.weight - torch.Size([672, 112, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.5.expand_conv.bn.weight - torch.Size([672]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.5.expand_conv.bn.bias - torch.Size([672]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.5.depthwise_conv.conv.weight - torch.Size([672, 1, 5, 5]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.5.depthwise_conv.bn.weight - torch.Size([672]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.5.depthwise_conv.bn.bias - torch.Size([672]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.5.se.conv1.conv.weight - torch.Size([28, 672, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.5.se.conv1.conv.bias - torch.Size([28]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.5.se.conv2.conv.weight - torch.Size([672, 28, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.5.se.conv2.conv.bias - torch.Size([672]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.5.linear_conv.conv.weight - torch.Size([112, 672, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.5.linear_conv.bn.weight - torch.Size([112]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.5.linear_conv.bn.bias - torch.Size([112]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.6.expand_conv.conv.weight - torch.Size([672, 112, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.6.expand_conv.bn.weight - torch.Size([672]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.6.expand_conv.bn.bias - torch.Size([672]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.6.depthwise_conv.conv.weight - torch.Size([672, 1, 5, 5]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.6.depthwise_conv.bn.weight - torch.Size([672]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.6.depthwise_conv.bn.bias - torch.Size([672]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.6.se.conv1.conv.weight - torch.Size([28, 672, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.6.se.conv1.conv.bias - torch.Size([28]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.6.se.conv2.conv.weight - torch.Size([672, 28, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.6.se.conv2.conv.bias - torch.Size([672]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.6.linear_conv.conv.weight - torch.Size([112, 672, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.6.linear_conv.bn.weight - torch.Size([112]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.6.linear_conv.bn.bias - torch.Size([112]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.7.expand_conv.conv.weight - torch.Size([672, 112, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.7.expand_conv.bn.weight - torch.Size([672]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.7.expand_conv.bn.bias - torch.Size([672]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.7.depthwise_conv.conv.weight - torch.Size([672, 1, 5, 5]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.7.depthwise_conv.bn.weight - torch.Size([672]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.7.depthwise_conv.bn.bias - torch.Size([672]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.7.se.conv1.conv.weight - torch.Size([28, 672, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.7.se.conv1.conv.bias - torch.Size([28]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.7.se.conv2.conv.weight - torch.Size([672, 28, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.7.se.conv2.conv.bias - torch.Size([672]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.7.linear_conv.conv.weight - torch.Size([112, 672, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.4.7.linear_conv.bn.weight - torch.Size([112]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.4.7.linear_conv.bn.bias - torch.Size([112]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.0.expand_conv.conv.weight - torch.Size([672, 112, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.0.expand_conv.bn.weight - torch.Size([672]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.0.expand_conv.bn.bias - torch.Size([672]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.0.depthwise_conv.conv.weight - torch.Size([672, 1, 5, 5]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.0.depthwise_conv.bn.weight - torch.Size([672]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.0.depthwise_conv.bn.bias - torch.Size([672]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.0.se.conv1.conv.weight - torch.Size([28, 672, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.0.se.conv1.conv.bias - torch.Size([28]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.0.se.conv2.conv.weight - torch.Size([672, 28, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.0.se.conv2.conv.bias - torch.Size([672]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.0.linear_conv.conv.weight - torch.Size([192, 672, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.0.linear_conv.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.0.linear_conv.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.1.expand_conv.conv.weight - torch.Size([1152, 192, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.1.expand_conv.bn.weight - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.1.expand_conv.bn.bias - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.1.depthwise_conv.conv.weight - torch.Size([1152, 1, 5, 5]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.1.depthwise_conv.bn.weight - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.1.depthwise_conv.bn.bias - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.1.se.conv1.conv.weight - torch.Size([48, 1152, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.1.se.conv1.conv.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.1.se.conv2.conv.weight - torch.Size([1152, 48, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.1.se.conv2.conv.bias - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.1.linear_conv.conv.weight - torch.Size([192, 1152, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.1.linear_conv.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.1.linear_conv.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.2.expand_conv.conv.weight - torch.Size([1152, 192, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.2.expand_conv.bn.weight - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.2.expand_conv.bn.bias - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.2.depthwise_conv.conv.weight - torch.Size([1152, 1, 5, 5]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.2.depthwise_conv.bn.weight - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.2.depthwise_conv.bn.bias - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.2.se.conv1.conv.weight - torch.Size([48, 1152, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.2.se.conv1.conv.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.2.se.conv2.conv.weight - torch.Size([1152, 48, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.2.se.conv2.conv.bias - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.2.linear_conv.conv.weight - torch.Size([192, 1152, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.2.linear_conv.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.2.linear_conv.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.3.expand_conv.conv.weight - torch.Size([1152, 192, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.3.expand_conv.bn.weight - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.3.expand_conv.bn.bias - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.3.depthwise_conv.conv.weight - torch.Size([1152, 1, 5, 5]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.3.depthwise_conv.bn.weight - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.3.depthwise_conv.bn.bias - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.3.se.conv1.conv.weight - torch.Size([48, 1152, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.3.se.conv1.conv.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.3.se.conv2.conv.weight - torch.Size([1152, 48, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.3.se.conv2.conv.bias - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.3.linear_conv.conv.weight - torch.Size([192, 1152, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.3.linear_conv.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.3.linear_conv.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.4.expand_conv.conv.weight - torch.Size([1152, 192, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.4.expand_conv.bn.weight - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.4.expand_conv.bn.bias - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.4.depthwise_conv.conv.weight - torch.Size([1152, 1, 5, 5]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.4.depthwise_conv.bn.weight - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.4.depthwise_conv.bn.bias - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.4.se.conv1.conv.weight - torch.Size([48, 1152, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.4.se.conv1.conv.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.4.se.conv2.conv.weight - torch.Size([1152, 48, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.4.se.conv2.conv.bias - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.4.linear_conv.conv.weight - torch.Size([192, 1152, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.4.linear_conv.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.4.linear_conv.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.5.expand_conv.conv.weight - torch.Size([1152, 192, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.5.expand_conv.bn.weight - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.5.expand_conv.bn.bias - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.5.depthwise_conv.conv.weight - torch.Size([1152, 1, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.5.depthwise_conv.bn.weight - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.5.depthwise_conv.bn.bias - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.5.se.conv1.conv.weight - torch.Size([48, 1152, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.5.se.conv1.conv.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.5.se.conv2.conv.weight - torch.Size([1152, 48, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.5.se.conv2.conv.bias - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.5.linear_conv.conv.weight - torch.Size([320, 1152, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.5.linear_conv.bn.weight - torch.Size([320]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.5.linear_conv.bn.bias - torch.Size([320]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.6.expand_conv.conv.weight - torch.Size([1920, 320, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.6.expand_conv.bn.weight - torch.Size([1920]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.6.expand_conv.bn.bias - torch.Size([1920]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.6.depthwise_conv.conv.weight - torch.Size([1920, 1, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.6.depthwise_conv.bn.weight - torch.Size([1920]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.6.depthwise_conv.bn.bias - torch.Size([1920]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.6.se.conv1.conv.weight - torch.Size([80, 1920, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.6.se.conv1.conv.bias - torch.Size([80]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.6.se.conv2.conv.weight - torch.Size([1920, 80, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.6.se.conv2.conv.bias - torch.Size([1920]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.6.linear_conv.conv.weight - torch.Size([320, 1920, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.5.6.linear_conv.bn.weight - torch.Size([320]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.5.6.linear_conv.bn.bias - torch.Size([320]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.6.conv.weight - torch.Size([1280, 320, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layers.6.bn.weight - torch.Size([1280]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layers.6.bn.bias - torch.Size([1280]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+head.fc.weight - torch.Size([158, 1280]): 
+NormalInit: mean=0, std=0.01, bias=0 
+
+head.fc.bias - torch.Size([158]): 
+NormalInit: mean=0, std=0.01, bias=0 
+2023/08/01 11:04:00 - mmengine - INFO - Load checkpoint from ../efficientnet-b1_3rdparty-ra-noisystudent_in1k_20221103-756bcbc0.pth
+2023/08/01 11:04:00 - mmengine - WARNING - "FileClient" will be deprecated in future. Please use io functions in https://mmengine.readthedocs.io/en/latest/api/fileio.html#file-io
+2023/08/01 11:04:00 - mmengine - WARNING - "HardDiskBackend" is the alias of "LocalBackend" and the former will be deprecated in future.
+2023/08/01 11:04:00 - mmengine - INFO - Checkpoints will be saved to E:\Code Camp 2\mmpretrain\work_dir\garbage.
+2023/08/01 11:04:28 - mmengine - INFO - Epoch(train)  [1][ 100/2731]  lr: 1.0000e-02  eta: 2:05:19  time: 0.1718  data_time: 0.0006  memory: 3001  loss: 3.9025
+2023/08/01 11:04:45 - mmengine - INFO - Epoch(train)  [1][ 200/2731]  lr: 1.0000e-02  eta: 1:40:52  time: 0.1740  data_time: 0.0006  memory: 3001  loss: 2.8493
+2023/08/01 11:05:02 - mmengine - INFO - Epoch(train)  [1][ 300/2731]  lr: 1.0000e-02  eta: 1:32:43  time: 0.1706  data_time: 0.0002  memory: 3001  loss: 1.9326
+2023/08/01 11:05:19 - mmengine - INFO - Epoch(train)  [1][ 400/2731]  lr: 1.0000e-02  eta: 1:28:43  time: 0.1734  data_time: 0.0006  memory: 3001  loss: 1.7748
+2023/08/01 11:05:37 - mmengine - INFO - Epoch(train)  [1][ 500/2731]  lr: 1.0000e-02  eta: 1:26:10  time: 0.1746  data_time: 0.0006  memory: 3001  loss: 1.8175
+2023/08/01 11:05:54 - mmengine - INFO - Epoch(train)  [1][ 600/2731]  lr: 1.0000e-02  eta: 1:24:27  time: 0.1747  data_time: 0.0006  memory: 3001  loss: 1.8182
+2023/08/01 11:06:11 - mmengine - INFO - Epoch(train)  [1][ 700/2731]  lr: 1.0000e-02  eta: 1:23:07  time: 0.1741  data_time: 0.0006  memory: 3001  loss: 1.5890
+2023/08/01 11:06:29 - mmengine - INFO - Epoch(train)  [1][ 800/2731]  lr: 1.0000e-02  eta: 1:22:05  time: 0.1744  data_time: 0.0006  memory: 3001  loss: 1.8204
+2023/08/01 11:06:46 - mmengine - INFO - Epoch(train)  [1][ 900/2731]  lr: 1.0000e-02  eta: 1:21:12  time: 0.1754  data_time: 0.0002  memory: 3001  loss: 1.6253
+2023/08/01 11:07:04 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:07:04 - mmengine - INFO - Epoch(train)  [1][1000/2731]  lr: 1.0000e-02  eta: 1:20:27  time: 0.1739  data_time: 0.0006  memory: 3001  loss: 1.4118
+2023/08/01 11:07:21 - mmengine - INFO - Epoch(train)  [1][1100/2731]  lr: 1.0000e-02  eta: 1:19:48  time: 0.1751  data_time: 0.0005  memory: 3001  loss: 1.7751
+2023/08/01 11:07:39 - mmengine - INFO - Epoch(train)  [1][1200/2731]  lr: 1.0000e-02  eta: 1:19:15  time: 0.1756  data_time: 0.0003  memory: 3001  loss: 1.4245
+2023/08/01 11:07:56 - mmengine - INFO - Epoch(train)  [1][1300/2731]  lr: 1.0000e-02  eta: 1:18:44  time: 0.1759  data_time: 0.0006  memory: 3001  loss: 1.2523
+2023/08/01 11:08:14 - mmengine - INFO - Epoch(train)  [1][1400/2731]  lr: 1.0000e-02  eta: 1:18:16  time: 0.1761  data_time: 0.0003  memory: 3001  loss: 1.4344
+2023/08/01 11:08:32 - mmengine - INFO - Epoch(train)  [1][1500/2731]  lr: 1.0000e-02  eta: 1:17:51  time: 0.1807  data_time: 0.0005  memory: 3001  loss: 1.3313
+2023/08/01 11:08:50 - mmengine - INFO - Epoch(train)  [1][1600/2731]  lr: 1.0000e-02  eta: 1:17:29  time: 0.1798  data_time: 0.0004  memory: 3001  loss: 1.3772
+2023/08/01 11:09:07 - mmengine - INFO - Epoch(train)  [1][1700/2731]  lr: 1.0000e-02  eta: 1:17:10  time: 0.1801  data_time: 0.0006  memory: 3001  loss: 1.3642
+2023/08/01 11:09:26 - mmengine - INFO - Epoch(train)  [1][1800/2731]  lr: 1.0000e-02  eta: 1:16:51  time: 0.1794  data_time: 0.0005  memory: 3001  loss: 1.4814
+2023/08/01 11:09:44 - mmengine - INFO - Epoch(train)  [1][1900/2731]  lr: 1.0000e-02  eta: 1:16:32  time: 0.1809  data_time: 0.0005  memory: 3001  loss: 1.1998
+2023/08/01 11:10:02 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:10:02 - mmengine - INFO - Epoch(train)  [1][2000/2731]  lr: 1.0000e-02  eta: 1:16:15  time: 0.1815  data_time: 0.0004  memory: 3001  loss: 1.4412
+2023/08/01 11:10:20 - mmengine - INFO - Epoch(train)  [1][2100/2731]  lr: 1.0000e-02  eta: 1:15:57  time: 0.1790  data_time: 0.0002  memory: 3001  loss: 1.3174
+2023/08/01 11:10:38 - mmengine - INFO - Epoch(train)  [1][2200/2731]  lr: 1.0000e-02  eta: 1:15:40  time: 0.1809  data_time: 0.0007  memory: 3001  loss: 0.9455
+2023/08/01 11:10:56 - mmengine - INFO - Epoch(train)  [1][2300/2731]  lr: 1.0000e-02  eta: 1:15:22  time: 0.1807  data_time: 0.0005  memory: 3001  loss: 1.1444
+2023/08/01 11:11:14 - mmengine - INFO - Epoch(train)  [1][2400/2731]  lr: 1.0000e-02  eta: 1:15:05  time: 0.1821  data_time: 0.0003  memory: 3001  loss: 0.9556
+2023/08/01 11:11:32 - mmengine - INFO - Epoch(train)  [1][2500/2731]  lr: 1.0000e-02  eta: 1:14:48  time: 0.1800  data_time: 0.0002  memory: 3001  loss: 1.2447
+2023/08/01 11:11:51 - mmengine - INFO - Epoch(train)  [1][2600/2731]  lr: 1.0000e-02  eta: 1:14:31  time: 0.1812  data_time: 0.0005  memory: 3001  loss: 1.1424
+2023/08/01 11:12:09 - mmengine - INFO - Epoch(train)  [1][2700/2731]  lr: 1.0000e-02  eta: 1:14:15  time: 0.1804  data_time: 0.0003  memory: 3001  loss: 1.3648
+2023/08/01 11:12:15 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:12:15 - mmengine - INFO - Saving checkpoint at 1 epochs
+2023/08/01 11:12:36 - mmengine - INFO - Epoch(val)  [1][100/168]    eta: 0:00:14  time: 0.0843  data_time: 0.0003  memory: 3001  
+2023/08/01 11:12:42 - mmengine - INFO - Epoch(val) [1][168/168]    accuracy/top1: 80.7011  accuracy/top5: 94.8723  data_time: 0.0769  time: 0.1608
+2023/08/01 11:13:00 - mmengine - INFO - Epoch(train)  [2][ 100/2731]  lr: 1.0000e-02  eta: 1:13:52  time: 0.1816  data_time: 0.0006  memory: 3001  loss: 0.9253
+2023/08/01 11:13:18 - mmengine - INFO - Epoch(train)  [2][ 200/2731]  lr: 1.0000e-02  eta: 1:13:33  time: 0.1805  data_time: 0.0004  memory: 3001  loss: 1.0496
+2023/08/01 11:13:31 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:13:37 - mmengine - INFO - Epoch(train)  [2][ 300/2731]  lr: 1.0000e-02  eta: 1:13:17  time: 0.1828  data_time: 0.0006  memory: 3001  loss: 0.9624
+2023/08/01 11:13:55 - mmengine - INFO - Epoch(train)  [2][ 400/2731]  lr: 1.0000e-02  eta: 1:13:01  time: 0.1853  data_time: 0.0007  memory: 3001  loss: 1.1272
+2023/08/01 11:14:14 - mmengine - INFO - Epoch(train)  [2][ 500/2731]  lr: 1.0000e-02  eta: 1:12:46  time: 0.1828  data_time: 0.0007  memory: 3001  loss: 1.0448
+2023/08/01 11:14:32 - mmengine - INFO - Epoch(train)  [2][ 600/2731]  lr: 1.0000e-02  eta: 1:12:29  time: 0.1825  data_time: 0.0005  memory: 3001  loss: 1.1499
+2023/08/01 11:14:50 - mmengine - INFO - Epoch(train)  [2][ 700/2731]  lr: 1.0000e-02  eta: 1:12:12  time: 0.1822  data_time: 0.0005  memory: 3001  loss: 1.0449
+2023/08/01 11:15:08 - mmengine - INFO - Epoch(train)  [2][ 800/2731]  lr: 1.0000e-02  eta: 1:11:55  time: 0.1818  data_time: 0.0009  memory: 3001  loss: 1.0608
+2023/08/01 11:15:27 - mmengine - INFO - Epoch(train)  [2][ 900/2731]  lr: 1.0000e-02  eta: 1:11:37  time: 0.1844  data_time: 0.0002  memory: 3001  loss: 0.8579
+2023/08/01 11:15:45 - mmengine - INFO - Epoch(train)  [2][1000/2731]  lr: 1.0000e-02  eta: 1:11:20  time: 0.1821  data_time: 0.0004  memory: 3001  loss: 1.1260
+2023/08/01 11:16:03 - mmengine - INFO - Epoch(train)  [2][1100/2731]  lr: 1.0000e-02  eta: 1:11:03  time: 0.1846  data_time: 0.0005  memory: 3001  loss: 1.0919
+2023/08/01 11:16:22 - mmengine - INFO - Epoch(train)  [2][1200/2731]  lr: 1.0000e-02  eta: 1:10:46  time: 0.1834  data_time: 0.0005  memory: 3001  loss: 1.3756
+2023/08/01 11:16:34 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:16:40 - mmengine - INFO - Epoch(train)  [2][1300/2731]  lr: 1.0000e-02  eta: 1:10:29  time: 0.1828  data_time: 0.0006  memory: 3001  loss: 1.1608
+2023/08/01 11:16:58 - mmengine - INFO - Epoch(train)  [2][1400/2731]  lr: 1.0000e-02  eta: 1:10:11  time: 0.1810  data_time: 0.0003  memory: 3001  loss: 0.9680
+2023/08/01 11:17:17 - mmengine - INFO - Epoch(train)  [2][1500/2731]  lr: 1.0000e-02  eta: 1:09:54  time: 0.1811  data_time: 0.0005  memory: 3001  loss: 1.0016
+2023/08/01 11:17:35 - mmengine - INFO - Epoch(train)  [2][1600/2731]  lr: 1.0000e-02  eta: 1:09:36  time: 0.1847  data_time: 0.0004  memory: 3001  loss: 1.1491
+2023/08/01 11:17:53 - mmengine - INFO - Epoch(train)  [2][1700/2731]  lr: 1.0000e-02  eta: 1:09:19  time: 0.1819  data_time: 0.0003  memory: 3001  loss: 1.0043
+2023/08/01 11:18:12 - mmengine - INFO - Epoch(train)  [2][1800/2731]  lr: 1.0000e-02  eta: 1:09:02  time: 0.1866  data_time: 0.0005  memory: 3001  loss: 1.1658
+2023/08/01 11:18:30 - mmengine - INFO - Epoch(train)  [2][1900/2731]  lr: 1.0000e-02  eta: 1:08:45  time: 0.1864  data_time: 0.0005  memory: 3001  loss: 0.9357
+2023/08/01 11:18:49 - mmengine - INFO - Epoch(train)  [2][2000/2731]  lr: 1.0000e-02  eta: 1:08:28  time: 0.1842  data_time: 0.0007  memory: 3001  loss: 1.0130
+2023/08/01 11:19:07 - mmengine - INFO - Epoch(train)  [2][2100/2731]  lr: 1.0000e-02  eta: 1:08:10  time: 0.1814  data_time: 0.0003  memory: 3001  loss: 1.0148
+2023/08/01 11:19:25 - mmengine - INFO - Epoch(train)  [2][2200/2731]  lr: 1.0000e-02  eta: 1:07:53  time: 0.1824  data_time: 0.0003  memory: 3001  loss: 1.0231
+2023/08/01 11:19:38 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:19:44 - mmengine - INFO - Epoch(train)  [2][2300/2731]  lr: 1.0000e-02  eta: 1:07:36  time: 0.1837  data_time: 0.0004  memory: 3001  loss: 0.9715
+2023/08/01 11:20:02 - mmengine - INFO - Epoch(train)  [2][2400/2731]  lr: 1.0000e-02  eta: 1:07:18  time: 0.1821  data_time: 0.0006  memory: 3001  loss: 1.2225
+2023/08/01 11:20:21 - mmengine - INFO - Epoch(train)  [2][2500/2731]  lr: 1.0000e-02  eta: 1:07:01  time: 0.1840  data_time: 0.0007  memory: 3001  loss: 0.9778
+2023/08/01 11:20:39 - mmengine - INFO - Epoch(train)  [2][2600/2731]  lr: 1.0000e-02  eta: 1:06:44  time: 0.1832  data_time: 0.0004  memory: 3001  loss: 1.0760
+2023/08/01 11:20:57 - mmengine - INFO - Epoch(train)  [2][2700/2731]  lr: 1.0000e-02  eta: 1:06:27  time: 0.1844  data_time: 0.0005  memory: 3001  loss: 1.0490
+2023/08/01 11:21:03 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:21:03 - mmengine - INFO - Saving checkpoint at 2 epochs
+2023/08/01 11:21:13 - mmengine - INFO - Epoch(val)  [2][100/168]    eta: 0:00:06  time: 0.0902  data_time: 0.0002  memory: 3001  
+2023/08/01 11:21:19 - mmengine - INFO - Epoch(val) [2][168/168]    accuracy/top1: 82.1928  accuracy/top5: 95.2638  data_time: 0.0022  time: 0.0914
+2023/08/01 11:21:38 - mmengine - INFO - Epoch(train)  [3][ 100/2731]  lr: 1.0000e-03  eta: 1:06:05  time: 0.1848  data_time: 0.0007  memory: 3001  loss: 1.0727
+2023/08/01 11:21:56 - mmengine - INFO - Epoch(train)  [3][ 200/2731]  lr: 1.0000e-03  eta: 1:05:49  time: 0.1843  data_time: 0.0007  memory: 3001  loss: 1.2188
+2023/08/01 11:22:15 - mmengine - INFO - Epoch(train)  [3][ 300/2731]  lr: 1.0000e-03  eta: 1:05:31  time: 0.1834  data_time: 0.0003  memory: 3001  loss: 0.9495
+2023/08/01 11:22:33 - mmengine - INFO - Epoch(train)  [3][ 400/2731]  lr: 1.0000e-03  eta: 1:05:13  time: 0.1836  data_time: 0.0004  memory: 3001  loss: 0.7514
+2023/08/01 11:22:52 - mmengine - INFO - Epoch(train)  [3][ 500/2731]  lr: 1.0000e-03  eta: 1:04:55  time: 0.1832  data_time: 0.0005  memory: 3001  loss: 0.8833
+2023/08/01 11:22:59 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:23:10 - mmengine - INFO - Epoch(train)  [3][ 600/2731]  lr: 1.0000e-03  eta: 1:04:38  time: 0.1861  data_time: 0.0005  memory: 3001  loss: 0.7285
+2023/08/01 11:23:28 - mmengine - INFO - Epoch(train)  [3][ 700/2731]  lr: 1.0000e-03  eta: 1:04:20  time: 0.1856  data_time: 0.0005  memory: 3001  loss: 0.9334
+2023/08/01 11:23:47 - mmengine - INFO - Epoch(train)  [3][ 800/2731]  lr: 1.0000e-03  eta: 1:04:02  time: 0.1817  data_time: 0.0004  memory: 3001  loss: 0.9505
+2023/08/01 11:24:05 - mmengine - INFO - Epoch(train)  [3][ 900/2731]  lr: 1.0000e-03  eta: 1:03:44  time: 0.1871  data_time: 0.0003  memory: 3001  loss: 0.8721
+2023/08/01 11:24:24 - mmengine - INFO - Epoch(train)  [3][1000/2731]  lr: 1.0000e-03  eta: 1:03:27  time: 0.1843  data_time: 0.0006  memory: 3001  loss: 0.7823
+2023/08/01 11:24:42 - mmengine - INFO - Epoch(train)  [3][1100/2731]  lr: 1.0000e-03  eta: 1:03:09  time: 0.1878  data_time: 0.0005  memory: 3001  loss: 0.7326
+2023/08/01 11:25:01 - mmengine - INFO - Epoch(train)  [3][1200/2731]  lr: 1.0000e-03  eta: 1:02:51  time: 0.1858  data_time: 0.0005  memory: 3001  loss: 0.4937
+2023/08/01 11:25:19 - mmengine - INFO - Epoch(train)  [3][1300/2731]  lr: 1.0000e-03  eta: 1:02:34  time: 0.1844  data_time: 0.0004  memory: 3001  loss: 0.7697
+2023/08/01 11:25:37 - mmengine - INFO - Epoch(train)  [3][1400/2731]  lr: 1.0000e-03  eta: 1:02:16  time: 0.1855  data_time: 0.0007  memory: 3001  loss: 0.5768
+2023/08/01 11:25:56 - mmengine - INFO - Epoch(train)  [3][1500/2731]  lr: 1.0000e-03  eta: 1:01:58  time: 0.1844  data_time: 0.0006  memory: 3001  loss: 0.6161
+2023/08/01 11:26:03 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:26:14 - mmengine - INFO - Epoch(train)  [3][1600/2731]  lr: 1.0000e-03  eta: 1:01:40  time: 0.1820  data_time: 0.0004  memory: 3001  loss: 0.8954
+2023/08/01 11:26:32 - mmengine - INFO - Epoch(train)  [3][1700/2731]  lr: 1.0000e-03  eta: 1:01:21  time: 0.1816  data_time: 0.0007  memory: 3001  loss: 0.7822
+2023/08/01 11:26:51 - mmengine - INFO - Epoch(train)  [3][1800/2731]  lr: 1.0000e-03  eta: 1:01:03  time: 0.1833  data_time: 0.0004  memory: 3001  loss: 0.8499
+2023/08/01 11:27:09 - mmengine - INFO - Epoch(train)  [3][1900/2731]  lr: 1.0000e-03  eta: 1:00:45  time: 0.1856  data_time: 0.0007  memory: 3001  loss: 0.6445
+2023/08/01 11:27:27 - mmengine - INFO - Epoch(train)  [3][2000/2731]  lr: 1.0000e-03  eta: 1:00:27  time: 0.1861  data_time: 0.0007  memory: 3001  loss: 0.6432
+2023/08/01 11:27:46 - mmengine - INFO - Epoch(train)  [3][2100/2731]  lr: 1.0000e-03  eta: 1:00:09  time: 0.1880  data_time: 0.0006  memory: 3001  loss: 0.7917
+2023/08/01 11:28:05 - mmengine - INFO - Epoch(train)  [3][2200/2731]  lr: 1.0000e-03  eta: 0:59:52  time: 0.1861  data_time: 0.0002  memory: 3001  loss: 0.8274
+2023/08/01 11:28:23 - mmengine - INFO - Epoch(train)  [3][2300/2731]  lr: 1.0000e-03  eta: 0:59:34  time: 0.1830  data_time: 0.0005  memory: 3001  loss: 0.6896
+2023/08/01 11:28:41 - mmengine - INFO - Epoch(train)  [3][2400/2731]  lr: 1.0000e-03  eta: 0:59:16  time: 0.1833  data_time: 0.0005  memory: 3001  loss: 0.7363
+2023/08/01 11:29:00 - mmengine - INFO - Epoch(train)  [3][2500/2731]  lr: 1.0000e-03  eta: 0:58:58  time: 0.1840  data_time: 0.0008  memory: 3001  loss: 0.9723
+2023/08/01 11:29:07 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:29:18 - mmengine - INFO - Epoch(train)  [3][2600/2731]  lr: 1.0000e-03  eta: 0:58:40  time: 0.1827  data_time: 0.0008  memory: 3001  loss: 0.8000
+2023/08/01 11:29:36 - mmengine - INFO - Epoch(train)  [3][2700/2731]  lr: 1.0000e-03  eta: 0:58:21  time: 0.1850  data_time: 0.0002  memory: 3001  loss: 0.6138
+2023/08/01 11:29:42 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:29:42 - mmengine - INFO - Saving checkpoint at 3 epochs
+2023/08/01 11:29:51 - mmengine - INFO - Epoch(val)  [3][100/168]    eta: 0:00:06  time: 0.0874  data_time: 0.0006  memory: 3001  
+2023/08/01 11:29:57 - mmengine - INFO - Epoch(val) [3][168/168]    accuracy/top1: 86.8917  accuracy/top5: 96.9793  data_time: 0.0023  time: 0.0893
+2023/08/01 11:30:16 - mmengine - INFO - Epoch(train)  [4][ 100/2731]  lr: 1.0000e-03  eta: 0:57:58  time: 0.1834  data_time: 0.0006  memory: 3001  loss: 0.7387
+2023/08/01 11:30:35 - mmengine - INFO - Epoch(train)  [4][ 200/2731]  lr: 1.0000e-03  eta: 0:57:40  time: 0.1836  data_time: 0.0006  memory: 3001  loss: 0.7311
+2023/08/01 11:30:53 - mmengine - INFO - Epoch(train)  [4][ 300/2731]  lr: 1.0000e-03  eta: 0:57:22  time: 0.1815  data_time: 0.0003  memory: 3001  loss: 0.5356
+2023/08/01 11:31:11 - mmengine - INFO - Epoch(train)  [4][ 400/2731]  lr: 1.0000e-03  eta: 0:57:04  time: 0.1842  data_time: 0.0008  memory: 3001  loss: 0.7559
+2023/08/01 11:31:30 - mmengine - INFO - Epoch(train)  [4][ 500/2731]  lr: 1.0000e-03  eta: 0:56:46  time: 0.1827  data_time: 0.0006  memory: 3001  loss: 0.8269
+2023/08/01 11:31:48 - mmengine - INFO - Epoch(train)  [4][ 600/2731]  lr: 1.0000e-03  eta: 0:56:28  time: 0.1836  data_time: 0.0006  memory: 3001  loss: 0.5516
+2023/08/01 11:32:07 - mmengine - INFO - Epoch(train)  [4][ 700/2731]  lr: 1.0000e-03  eta: 0:56:10  time: 0.1834  data_time: 0.0005  memory: 3001  loss: 0.6666
+2023/08/01 11:32:25 - mmengine - INFO - Epoch(train)  [4][ 800/2731]  lr: 1.0000e-03  eta: 0:55:52  time: 0.1850  data_time: 0.0005  memory: 3001  loss: 0.6073
+2023/08/01 11:32:26 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:32:43 - mmengine - INFO - Epoch(train)  [4][ 900/2731]  lr: 1.0000e-03  eta: 0:55:33  time: 0.1828  data_time: 0.0006  memory: 3001  loss: 0.4424
+2023/08/01 11:33:02 - mmengine - INFO - Epoch(train)  [4][1000/2731]  lr: 1.0000e-03  eta: 0:55:15  time: 0.1813  data_time: 0.0005  memory: 3001  loss: 0.8112
+2023/08/01 11:33:20 - mmengine - INFO - Epoch(train)  [4][1100/2731]  lr: 1.0000e-03  eta: 0:54:57  time: 0.1824  data_time: 0.0006  memory: 3001  loss: 0.6222
+2023/08/01 11:33:39 - mmengine - INFO - Epoch(train)  [4][1200/2731]  lr: 1.0000e-03  eta: 0:54:39  time: 0.1829  data_time: 0.0003  memory: 3001  loss: 0.6375
+2023/08/01 11:33:57 - mmengine - INFO - Epoch(train)  [4][1300/2731]  lr: 1.0000e-03  eta: 0:54:21  time: 0.1852  data_time: 0.0003  memory: 3001  loss: 0.7576
+2023/08/01 11:34:16 - mmengine - INFO - Epoch(train)  [4][1400/2731]  lr: 1.0000e-03  eta: 0:54:03  time: 0.1864  data_time: 0.0005  memory: 3001  loss: 0.7262
+2023/08/01 11:34:34 - mmengine - INFO - Epoch(train)  [4][1500/2731]  lr: 1.0000e-03  eta: 0:53:45  time: 0.1829  data_time: 0.0006  memory: 3001  loss: 0.5518
+2023/08/01 11:34:53 - mmengine - INFO - Epoch(train)  [4][1600/2731]  lr: 1.0000e-03  eta: 0:53:27  time: 0.1860  data_time: 0.0006  memory: 3001  loss: 0.7397
+2023/08/01 11:35:11 - mmengine - INFO - Epoch(train)  [4][1700/2731]  lr: 1.0000e-03  eta: 0:53:09  time: 0.1891  data_time: 0.0003  memory: 3001  loss: 0.7275
+2023/08/01 11:35:30 - mmengine - INFO - Epoch(train)  [4][1800/2731]  lr: 1.0000e-03  eta: 0:52:52  time: 0.1904  data_time: 0.0004  memory: 3001  loss: 0.6944
+2023/08/01 11:35:31 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:35:48 - mmengine - INFO - Epoch(train)  [4][1900/2731]  lr: 1.0000e-03  eta: 0:52:34  time: 0.1876  data_time: 0.0003  memory: 3001  loss: 0.4490
+2023/08/01 11:36:07 - mmengine - INFO - Epoch(train)  [4][2000/2731]  lr: 1.0000e-03  eta: 0:52:16  time: 0.1855  data_time: 0.0007  memory: 3001  loss: 0.6693
+2023/08/01 11:36:26 - mmengine - INFO - Epoch(train)  [4][2100/2731]  lr: 1.0000e-03  eta: 0:51:59  time: 0.1862  data_time: 0.0001  memory: 3001  loss: 0.7416
+2023/08/01 11:36:44 - mmengine - INFO - Epoch(train)  [4][2200/2731]  lr: 1.0000e-03  eta: 0:51:41  time: 0.1897  data_time: 0.0007  memory: 3001  loss: 0.6378
+2023/08/01 11:37:03 - mmengine - INFO - Epoch(train)  [4][2300/2731]  lr: 1.0000e-03  eta: 0:51:23  time: 0.1862  data_time: 0.0005  memory: 3001  loss: 0.5194
+2023/08/01 11:37:22 - mmengine - INFO - Epoch(train)  [4][2400/2731]  lr: 1.0000e-03  eta: 0:51:05  time: 0.1883  data_time: 0.0006  memory: 3001  loss: 0.7779
+2023/08/01 11:37:41 - mmengine - INFO - Epoch(train)  [4][2500/2731]  lr: 1.0000e-03  eta: 0:50:47  time: 0.1863  data_time: 0.0008  memory: 3001  loss: 0.6271
+2023/08/01 11:37:59 - mmengine - INFO - Epoch(train)  [4][2600/2731]  lr: 1.0000e-03  eta: 0:50:30  time: 0.1871  data_time: 0.0004  memory: 3001  loss: 0.6227
+2023/08/01 11:38:18 - mmengine - INFO - Epoch(train)  [4][2700/2731]  lr: 1.0000e-03  eta: 0:50:12  time: 0.1883  data_time: 0.0006  memory: 3001  loss: 0.6159
+2023/08/01 11:38:24 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:38:24 - mmengine - INFO - Saving checkpoint at 4 epochs
+2023/08/01 11:38:33 - mmengine - INFO - Epoch(val)  [4][100/168]    eta: 0:00:06  time: 0.0896  data_time: 0.0004  memory: 3001  
+2023/08/01 11:38:39 - mmengine - INFO - Epoch(val) [4][168/168]    accuracy/top1: 87.3205  accuracy/top5: 97.1285  data_time: 0.0023  time: 0.0913
+2023/08/01 11:38:54 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:38:59 - mmengine - INFO - Epoch(train)  [5][ 100/2731]  lr: 1.0000e-03  eta: 0:49:49  time: 0.1884  data_time: 0.0005  memory: 3001  loss: 0.5396
+2023/08/01 11:39:17 - mmengine - INFO - Epoch(train)  [5][ 200/2731]  lr: 1.0000e-03  eta: 0:49:31  time: 0.1886  data_time: 0.0004  memory: 3001  loss: 0.5531
+2023/08/01 11:39:36 - mmengine - INFO - Epoch(train)  [5][ 300/2731]  lr: 1.0000e-03  eta: 0:49:13  time: 0.1856  data_time: 0.0006  memory: 3001  loss: 0.7574
+2023/08/01 11:39:54 - mmengine - INFO - Epoch(train)  [5][ 400/2731]  lr: 1.0000e-03  eta: 0:48:55  time: 0.1844  data_time: 0.0007  memory: 3001  loss: 0.7075
+2023/08/01 11:40:13 - mmengine - INFO - Epoch(train)  [5][ 500/2731]  lr: 1.0000e-03  eta: 0:48:37  time: 0.1809  data_time: 0.0007  memory: 3001  loss: 0.5941
+2023/08/01 11:40:32 - mmengine - INFO - Epoch(train)  [5][ 600/2731]  lr: 1.0000e-03  eta: 0:48:19  time: 0.1881  data_time: 0.0005  memory: 3001  loss: 0.6792
+2023/08/01 11:40:50 - mmengine - INFO - Epoch(train)  [5][ 700/2731]  lr: 1.0000e-03  eta: 0:48:01  time: 0.1849  data_time: 0.0008  memory: 3001  loss: 0.6883
+2023/08/01 11:41:09 - mmengine - INFO - Epoch(train)  [5][ 800/2731]  lr: 1.0000e-03  eta: 0:47:43  time: 0.1888  data_time: 0.0006  memory: 3001  loss: 0.5687
+2023/08/01 11:41:27 - mmengine - INFO - Epoch(train)  [5][ 900/2731]  lr: 1.0000e-03  eta: 0:47:24  time: 0.1859  data_time: 0.0004  memory: 3001  loss: 0.5603
+2023/08/01 11:41:46 - mmengine - INFO - Epoch(train)  [5][1000/2731]  lr: 1.0000e-03  eta: 0:47:06  time: 0.1848  data_time: 0.0006  memory: 3001  loss: 0.5989
+2023/08/01 11:42:00 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:42:04 - mmengine - INFO - Epoch(train)  [5][1100/2731]  lr: 1.0000e-03  eta: 0:46:48  time: 0.1863  data_time: 0.0006  memory: 3001  loss: 0.6263
+2023/08/01 11:42:23 - mmengine - INFO - Epoch(train)  [5][1200/2731]  lr: 1.0000e-03  eta: 0:46:30  time: 0.1852  data_time: 0.0004  memory: 3001  loss: 0.7441
+2023/08/01 11:42:41 - mmengine - INFO - Epoch(train)  [5][1300/2731]  lr: 1.0000e-03  eta: 0:46:12  time: 0.1875  data_time: 0.0006  memory: 3001  loss: 0.5628
+2023/08/01 11:43:00 - mmengine - INFO - Epoch(train)  [5][1400/2731]  lr: 1.0000e-03  eta: 0:45:54  time: 0.1847  data_time: 0.0007  memory: 3001  loss: 0.6200
+2023/08/01 11:43:18 - mmengine - INFO - Epoch(train)  [5][1500/2731]  lr: 1.0000e-03  eta: 0:45:35  time: 0.1860  data_time: 0.0006  memory: 3001  loss: 0.7556
+2023/08/01 11:43:37 - mmengine - INFO - Epoch(train)  [5][1600/2731]  lr: 1.0000e-03  eta: 0:45:17  time: 0.1839  data_time: 0.0005  memory: 3001  loss: 0.5402
+2023/08/01 11:43:55 - mmengine - INFO - Epoch(train)  [5][1700/2731]  lr: 1.0000e-03  eta: 0:44:59  time: 0.1854  data_time: 0.0004  memory: 3001  loss: 0.8341
+2023/08/01 11:44:14 - mmengine - INFO - Epoch(train)  [5][1800/2731]  lr: 1.0000e-03  eta: 0:44:41  time: 0.1857  data_time: 0.0005  memory: 3001  loss: 0.5812
+2023/08/01 11:44:33 - mmengine - INFO - Epoch(train)  [5][1900/2731]  lr: 1.0000e-03  eta: 0:44:23  time: 0.1846  data_time: 0.0004  memory: 3001  loss: 0.7490
+2023/08/01 11:44:51 - mmengine - INFO - Epoch(train)  [5][2000/2731]  lr: 1.0000e-03  eta: 0:44:04  time: 0.1838  data_time: 0.0006  memory: 3001  loss: 0.6246
+2023/08/01 11:45:05 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:45:10 - mmengine - INFO - Epoch(train)  [5][2100/2731]  lr: 1.0000e-03  eta: 0:43:46  time: 0.1861  data_time: 0.0004  memory: 3001  loss: 0.5189
+2023/08/01 11:45:28 - mmengine - INFO - Epoch(train)  [5][2200/2731]  lr: 1.0000e-03  eta: 0:43:28  time: 0.1857  data_time: 0.0006  memory: 3001  loss: 0.3895
+2023/08/01 11:45:47 - mmengine - INFO - Epoch(train)  [5][2300/2731]  lr: 1.0000e-03  eta: 0:43:10  time: 0.1857  data_time: 0.0003  memory: 3001  loss: 0.6109
+2023/08/01 11:46:05 - mmengine - INFO - Epoch(train)  [5][2400/2731]  lr: 1.0000e-03  eta: 0:42:51  time: 0.1850  data_time: 0.0008  memory: 3001  loss: 0.6367
+2023/08/01 11:46:24 - mmengine - INFO - Epoch(train)  [5][2500/2731]  lr: 1.0000e-03  eta: 0:42:33  time: 0.1863  data_time: 0.0005  memory: 3001  loss: 0.8179
+2023/08/01 11:46:42 - mmengine - INFO - Epoch(train)  [5][2600/2731]  lr: 1.0000e-03  eta: 0:42:15  time: 0.1861  data_time: 0.0005  memory: 3001  loss: 0.5326
+2023/08/01 11:47:01 - mmengine - INFO - Epoch(train)  [5][2700/2731]  lr: 1.0000e-03  eta: 0:41:57  time: 0.1882  data_time: 0.0004  memory: 3001  loss: 0.6612
+2023/08/01 11:47:07 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:47:07 - mmengine - INFO - Saving checkpoint at 5 epochs
+2023/08/01 11:47:16 - mmengine - INFO - Epoch(val)  [5][100/168]    eta: 0:00:06  time: 0.0885  data_time: 0.0005  memory: 3001  
+2023/08/01 11:47:23 - mmengine - INFO - Epoch(val) [5][168/168]    accuracy/top1: 88.0104  accuracy/top5: 97.1844  data_time: 0.0023  time: 0.0908
+2023/08/01 11:47:41 - mmengine - INFO - Epoch(train)  [6][ 100/2731]  lr: 1.0000e-04  eta: 0:41:33  time: 0.1883  data_time: 0.0006  memory: 3001  loss: 0.4635
+2023/08/01 11:48:00 - mmengine - INFO - Epoch(train)  [6][ 200/2731]  lr: 1.0000e-04  eta: 0:41:15  time: 0.1883  data_time: 0.0008  memory: 3001  loss: 0.4926
+2023/08/01 11:48:19 - mmengine - INFO - Epoch(train)  [6][ 300/2731]  lr: 1.0000e-04  eta: 0:40:57  time: 0.1891  data_time: 0.0007  memory: 3001  loss: 0.5024
+2023/08/01 11:48:27 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:48:38 - mmengine - INFO - Epoch(train)  [6][ 400/2731]  lr: 1.0000e-04  eta: 0:40:39  time: 0.1829  data_time: 0.0003  memory: 3001  loss: 0.6430
+2023/08/01 11:48:56 - mmengine - INFO - Epoch(train)  [6][ 500/2731]  lr: 1.0000e-04  eta: 0:40:21  time: 0.1887  data_time: 0.0006  memory: 3001  loss: 0.6006
+2023/08/01 11:49:15 - mmengine - INFO - Epoch(train)  [6][ 600/2731]  lr: 1.0000e-04  eta: 0:40:03  time: 0.1865  data_time: 0.0004  memory: 3001  loss: 0.5347
+2023/08/01 11:49:34 - mmengine - INFO - Epoch(train)  [6][ 700/2731]  lr: 1.0000e-04  eta: 0:39:45  time: 0.1899  data_time: 0.0004  memory: 3001  loss: 0.6003
+2023/08/01 11:49:52 - mmengine - INFO - Epoch(train)  [6][ 800/2731]  lr: 1.0000e-04  eta: 0:39:26  time: 0.1851  data_time: 0.0004  memory: 3001  loss: 0.4983
+2023/08/01 11:50:11 - mmengine - INFO - Epoch(train)  [6][ 900/2731]  lr: 1.0000e-04  eta: 0:39:08  time: 0.1865  data_time: 0.0006  memory: 3001  loss: 0.5742
+2023/08/01 11:50:30 - mmengine - INFO - Epoch(train)  [6][1000/2731]  lr: 1.0000e-04  eta: 0:38:50  time: 0.1883  data_time: 0.0004  memory: 3001  loss: 0.6221
+2023/08/01 11:50:48 - mmengine - INFO - Epoch(train)  [6][1100/2731]  lr: 1.0000e-04  eta: 0:38:32  time: 0.1855  data_time: 0.0004  memory: 3001  loss: 0.5530
+2023/08/01 11:51:07 - mmengine - INFO - Epoch(train)  [6][1200/2731]  lr: 1.0000e-04  eta: 0:38:14  time: 0.1895  data_time: 0.0008  memory: 3001  loss: 0.4292
+2023/08/01 11:51:26 - mmengine - INFO - Epoch(train)  [6][1300/2731]  lr: 1.0000e-04  eta: 0:37:55  time: 0.1870  data_time: 0.0005  memory: 3001  loss: 0.6862
+2023/08/01 11:51:34 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:51:44 - mmengine - INFO - Epoch(train)  [6][1400/2731]  lr: 1.0000e-04  eta: 0:37:37  time: 0.1865  data_time: 0.0005  memory: 3001  loss: 0.5840
+2023/08/01 11:52:03 - mmengine - INFO - Epoch(train)  [6][1500/2731]  lr: 1.0000e-04  eta: 0:37:19  time: 0.1854  data_time: 0.0005  memory: 3001  loss: 0.5401
+2023/08/01 11:52:21 - mmengine - INFO - Epoch(train)  [6][1600/2731]  lr: 1.0000e-04  eta: 0:37:00  time: 0.1889  data_time: 0.0001  memory: 3001  loss: 0.5957
+2023/08/01 11:52:40 - mmengine - INFO - Epoch(train)  [6][1700/2731]  lr: 1.0000e-04  eta: 0:36:42  time: 0.1906  data_time: 0.0006  memory: 3001  loss: 0.7320
+2023/08/01 11:52:59 - mmengine - INFO - Epoch(train)  [6][1800/2731]  lr: 1.0000e-04  eta: 0:36:24  time: 0.1866  data_time: 0.0006  memory: 3001  loss: 0.5660
+2023/08/01 11:53:17 - mmengine - INFO - Epoch(train)  [6][1900/2731]  lr: 1.0000e-04  eta: 0:36:06  time: 0.1855  data_time: 0.0006  memory: 3001  loss: 0.5639
+2023/08/01 11:53:36 - mmengine - INFO - Epoch(train)  [6][2000/2731]  lr: 1.0000e-04  eta: 0:35:47  time: 0.1846  data_time: 0.0004  memory: 3001  loss: 0.5127
+2023/08/01 11:53:54 - mmengine - INFO - Epoch(train)  [6][2100/2731]  lr: 1.0000e-04  eta: 0:35:29  time: 0.1879  data_time: 0.0005  memory: 3001  loss: 0.4485
+2023/08/01 11:54:13 - mmengine - INFO - Epoch(train)  [6][2200/2731]  lr: 1.0000e-04  eta: 0:35:11  time: 0.1884  data_time: 0.0006  memory: 3001  loss: 0.6990
+2023/08/01 11:54:32 - mmengine - INFO - Epoch(train)  [6][2300/2731]  lr: 1.0000e-04  eta: 0:34:53  time: 0.1857  data_time: 0.0006  memory: 3001  loss: 0.6419
+2023/08/01 11:54:40 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:54:51 - mmengine - INFO - Epoch(train)  [6][2400/2731]  lr: 1.0000e-04  eta: 0:34:34  time: 0.1855  data_time: 0.0007  memory: 3001  loss: 0.6249
+2023/08/01 11:55:09 - mmengine - INFO - Epoch(train)  [6][2500/2731]  lr: 1.0000e-04  eta: 0:34:16  time: 0.1831  data_time: 0.0003  memory: 3001  loss: 0.7071
+2023/08/01 11:55:28 - mmengine - INFO - Epoch(train)  [6][2600/2731]  lr: 1.0000e-04  eta: 0:33:57  time: 0.1860  data_time: 0.0003  memory: 3001  loss: 0.5591
+2023/08/01 11:55:46 - mmengine - INFO - Epoch(train)  [6][2700/2731]  lr: 1.0000e-04  eta: 0:33:39  time: 0.1819  data_time: 0.0005  memory: 3001  loss: 0.6497
+2023/08/01 11:55:52 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:55:52 - mmengine - INFO - Saving checkpoint at 6 epochs
+2023/08/01 11:56:01 - mmengine - INFO - Epoch(val)  [6][100/168]    eta: 0:00:06  time: 0.0897  data_time: 0.0001  memory: 3001  
+2023/08/01 11:56:07 - mmengine - INFO - Epoch(val) [6][168/168]    accuracy/top1: 88.2715  accuracy/top5: 97.1098  data_time: 0.0022  time: 0.0901
+2023/08/01 11:56:26 - mmengine - INFO - Epoch(train)  [7][ 100/2731]  lr: 1.0000e-04  eta: 0:33:15  time: 0.1858  data_time: 0.0008  memory: 3001  loss: 0.5599
+2023/08/01 11:56:44 - mmengine - INFO - Epoch(train)  [7][ 200/2731]  lr: 1.0000e-04  eta: 0:32:57  time: 0.1896  data_time: 0.0003  memory: 3001  loss: 0.7205
+2023/08/01 11:57:03 - mmengine - INFO - Epoch(train)  [7][ 300/2731]  lr: 1.0000e-04  eta: 0:32:38  time: 0.1838  data_time: 0.0004  memory: 3001  loss: 0.6577
+2023/08/01 11:57:21 - mmengine - INFO - Epoch(train)  [7][ 400/2731]  lr: 1.0000e-04  eta: 0:32:20  time: 0.1861  data_time: 0.0006  memory: 3001  loss: 0.5587
+2023/08/01 11:57:39 - mmengine - INFO - Epoch(train)  [7][ 500/2731]  lr: 1.0000e-04  eta: 0:32:01  time: 0.1816  data_time: 0.0005  memory: 3001  loss: 0.5863
+2023/08/01 11:57:58 - mmengine - INFO - Epoch(train)  [7][ 600/2731]  lr: 1.0000e-04  eta: 0:31:43  time: 0.1811  data_time: 0.0004  memory: 3001  loss: 0.5641
+2023/08/01 11:58:00 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 11:58:16 - mmengine - INFO - Epoch(train)  [7][ 700/2731]  lr: 1.0000e-04  eta: 0:31:24  time: 0.1808  data_time: 0.0005  memory: 3001  loss: 0.5977
+2023/08/01 11:58:34 - mmengine - INFO - Epoch(train)  [7][ 800/2731]  lr: 1.0000e-04  eta: 0:31:05  time: 0.1805  data_time: 0.0006  memory: 3001  loss: 0.6185
+2023/08/01 11:58:52 - mmengine - INFO - Epoch(train)  [7][ 900/2731]  lr: 1.0000e-04  eta: 0:30:47  time: 0.1801  data_time: 0.0005  memory: 3001  loss: 0.6865
+2023/08/01 11:59:10 - mmengine - INFO - Epoch(train)  [7][1000/2731]  lr: 1.0000e-04  eta: 0:30:28  time: 0.1799  data_time: 0.0005  memory: 3001  loss: 0.5498
+2023/08/01 11:59:29 - mmengine - INFO - Epoch(train)  [7][1100/2731]  lr: 1.0000e-04  eta: 0:30:10  time: 0.1822  data_time: 0.0005  memory: 3001  loss: 0.5589
+2023/08/01 11:59:47 - mmengine - INFO - Epoch(train)  [7][1200/2731]  lr: 1.0000e-04  eta: 0:29:51  time: 0.1781  data_time: 0.0004  memory: 3001  loss: 0.5249
+2023/08/01 12:00:05 - mmengine - INFO - Epoch(train)  [7][1300/2731]  lr: 1.0000e-04  eta: 0:29:32  time: 0.1785  data_time: 0.0005  memory: 3001  loss: 0.5413
+2023/08/01 12:00:23 - mmengine - INFO - Epoch(train)  [7][1400/2731]  lr: 1.0000e-04  eta: 0:29:14  time: 0.1788  data_time: 0.0005  memory: 3001  loss: 0.6192
+2023/08/01 12:00:41 - mmengine - INFO - Epoch(train)  [7][1500/2731]  lr: 1.0000e-04  eta: 0:28:55  time: 0.1819  data_time: 0.0007  memory: 3001  loss: 0.4956
+2023/08/01 12:00:59 - mmengine - INFO - Epoch(train)  [7][1600/2731]  lr: 1.0000e-04  eta: 0:28:37  time: 0.1837  data_time: 0.0008  memory: 3001  loss: 0.5277
+2023/08/01 12:01:02 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 12:01:18 - mmengine - INFO - Epoch(train)  [7][1700/2731]  lr: 1.0000e-04  eta: 0:28:18  time: 0.1831  data_time: 0.0007  memory: 3001  loss: 0.5638
+2023/08/01 12:01:36 - mmengine - INFO - Epoch(train)  [7][1800/2731]  lr: 1.0000e-04  eta: 0:28:00  time: 0.1846  data_time: 0.0003  memory: 3001  loss: 0.6565
+2023/08/01 12:01:55 - mmengine - INFO - Epoch(train)  [7][1900/2731]  lr: 1.0000e-04  eta: 0:27:42  time: 0.1827  data_time: 0.0005  memory: 3001  loss: 0.4395
+2023/08/01 12:02:13 - mmengine - INFO - Epoch(train)  [7][2000/2731]  lr: 1.0000e-04  eta: 0:27:23  time: 0.1834  data_time: 0.0006  memory: 3001  loss: 0.5618
+2023/08/01 12:02:32 - mmengine - INFO - Epoch(train)  [7][2100/2731]  lr: 1.0000e-04  eta: 0:27:05  time: 0.1834  data_time: 0.0003  memory: 3001  loss: 0.5601
+2023/08/01 12:02:50 - mmengine - INFO - Epoch(train)  [7][2200/2731]  lr: 1.0000e-04  eta: 0:26:46  time: 0.1843  data_time: 0.0006  memory: 3001  loss: 0.3782
+2023/08/01 12:03:09 - mmengine - INFO - Epoch(train)  [7][2300/2731]  lr: 1.0000e-04  eta: 0:26:28  time: 0.1852  data_time: 0.0003  memory: 3001  loss: 0.5873
+2023/08/01 12:03:28 - mmengine - INFO - Epoch(train)  [7][2400/2731]  lr: 1.0000e-04  eta: 0:26:10  time: 0.1899  data_time: 0.0005  memory: 3001  loss: 0.3873
+2023/08/01 12:03:46 - mmengine - INFO - Epoch(train)  [7][2500/2731]  lr: 1.0000e-04  eta: 0:25:52  time: 0.1885  data_time: 0.0005  memory: 3001  loss: 0.5501
+2023/08/01 12:04:05 - mmengine - INFO - Epoch(train)  [7][2600/2731]  lr: 1.0000e-04  eta: 0:25:33  time: 0.1884  data_time: 0.0005  memory: 3001  loss: 0.5291
+2023/08/01 12:04:07 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 12:04:24 - mmengine - INFO - Epoch(train)  [7][2700/2731]  lr: 1.0000e-04  eta: 0:25:15  time: 0.1877  data_time: 0.0006  memory: 3001  loss: 0.7285
+2023/08/01 12:04:29 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 12:04:29 - mmengine - INFO - Saving checkpoint at 7 epochs
+2023/08/01 12:04:39 - mmengine - INFO - Epoch(val)  [7][100/168]    eta: 0:00:06  time: 0.0906  data_time: 0.0002  memory: 3001  
+2023/08/01 12:04:45 - mmengine - INFO - Epoch(val) [7][168/168]    accuracy/top1: 87.9918  accuracy/top5: 97.2031  data_time: 0.0025  time: 0.0910
+2023/08/01 12:05:04 - mmengine - INFO - Epoch(train)  [8][ 100/2731]  lr: 1.0000e-04  eta: 0:24:51  time: 0.1857  data_time: 0.0006  memory: 3001  loss: 0.5925
+2023/08/01 12:05:23 - mmengine - INFO - Epoch(train)  [8][ 200/2731]  lr: 1.0000e-04  eta: 0:24:33  time: 0.1863  data_time: 0.0006  memory: 3001  loss: 0.5000
+2023/08/01 12:05:41 - mmengine - INFO - Epoch(train)  [8][ 300/2731]  lr: 1.0000e-04  eta: 0:24:14  time: 0.1879  data_time: 0.0007  memory: 3001  loss: 0.5741
+2023/08/01 12:06:00 - mmengine - INFO - Epoch(train)  [8][ 400/2731]  lr: 1.0000e-04  eta: 0:23:56  time: 0.1906  data_time: 0.0006  memory: 3001  loss: 0.6442
+2023/08/01 12:06:19 - mmengine - INFO - Epoch(train)  [8][ 500/2731]  lr: 1.0000e-04  eta: 0:23:38  time: 0.1901  data_time: 0.0004  memory: 3001  loss: 0.4274
+2023/08/01 12:06:38 - mmengine - INFO - Epoch(train)  [8][ 600/2731]  lr: 1.0000e-04  eta: 0:23:19  time: 0.1868  data_time: 0.0007  memory: 3001  loss: 0.6315
+2023/08/01 12:06:56 - mmengine - INFO - Epoch(train)  [8][ 700/2731]  lr: 1.0000e-04  eta: 0:23:01  time: 0.1828  data_time: 0.0005  memory: 3001  loss: 0.5339
+2023/08/01 12:07:15 - mmengine - INFO - Epoch(train)  [8][ 800/2731]  lr: 1.0000e-04  eta: 0:22:43  time: 0.1871  data_time: 0.0004  memory: 3001  loss: 0.5207
+2023/08/01 12:07:31 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 12:07:34 - mmengine - INFO - Epoch(train)  [8][ 900/2731]  lr: 1.0000e-04  eta: 0:22:24  time: 0.1846  data_time: 0.0006  memory: 3001  loss: 0.7502
+2023/08/01 12:07:53 - mmengine - INFO - Epoch(train)  [8][1000/2731]  lr: 1.0000e-04  eta: 0:22:06  time: 0.1886  data_time: 0.0005  memory: 3001  loss: 0.4006
+2023/08/01 12:08:11 - mmengine - INFO - Epoch(train)  [8][1100/2731]  lr: 1.0000e-04  eta: 0:21:48  time: 0.1880  data_time: 0.0004  memory: 3001  loss: 0.5896
+2023/08/01 12:08:30 - mmengine - INFO - Epoch(train)  [8][1200/2731]  lr: 1.0000e-04  eta: 0:21:29  time: 0.1856  data_time: 0.0005  memory: 3001  loss: 0.5562
+2023/08/01 12:08:49 - mmengine - INFO - Epoch(train)  [8][1300/2731]  lr: 1.0000e-04  eta: 0:21:11  time: 0.1851  data_time: 0.0007  memory: 3001  loss: 0.5951
+2023/08/01 12:09:07 - mmengine - INFO - Epoch(train)  [8][1400/2731]  lr: 1.0000e-04  eta: 0:20:52  time: 0.1809  data_time: 0.0006  memory: 3001  loss: 0.4947
+2023/08/01 12:09:25 - mmengine - INFO - Epoch(train)  [8][1500/2731]  lr: 1.0000e-04  eta: 0:20:34  time: 0.1866  data_time: 0.0006  memory: 3001  loss: 0.6761
+2023/08/01 12:09:44 - mmengine - INFO - Epoch(train)  [8][1600/2731]  lr: 1.0000e-04  eta: 0:20:15  time: 0.1841  data_time: 0.0008  memory: 3001  loss: 0.5452
+2023/08/01 12:10:02 - mmengine - INFO - Epoch(train)  [8][1700/2731]  lr: 1.0000e-04  eta: 0:19:57  time: 0.1824  data_time: 0.0004  memory: 3001  loss: 0.4525
+2023/08/01 12:10:20 - mmengine - INFO - Epoch(train)  [8][1800/2731]  lr: 1.0000e-04  eta: 0:19:38  time: 0.1819  data_time: 0.0006  memory: 3001  loss: 0.4477
+2023/08/01 12:10:35 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 12:10:38 - mmengine - INFO - Epoch(train)  [8][1900/2731]  lr: 1.0000e-04  eta: 0:19:20  time: 0.1807  data_time: 0.0001  memory: 3001  loss: 0.5540
+2023/08/01 12:10:57 - mmengine - INFO - Epoch(train)  [8][2000/2731]  lr: 1.0000e-04  eta: 0:19:02  time: 0.1834  data_time: 0.0004  memory: 3001  loss: 0.4807
+2023/08/01 12:11:15 - mmengine - INFO - Epoch(train)  [8][2100/2731]  lr: 1.0000e-04  eta: 0:18:43  time: 0.1815  data_time: 0.0001  memory: 3001  loss: 0.5964
+2023/08/01 12:11:33 - mmengine - INFO - Epoch(train)  [8][2200/2731]  lr: 1.0000e-04  eta: 0:18:25  time: 0.1815  data_time: 0.0007  memory: 3001  loss: 0.6294
+2023/08/01 12:11:52 - mmengine - INFO - Epoch(train)  [8][2300/2731]  lr: 1.0000e-04  eta: 0:18:06  time: 0.1822  data_time: 0.0005  memory: 3001  loss: 0.5346
+2023/08/01 12:12:10 - mmengine - INFO - Epoch(train)  [8][2400/2731]  lr: 1.0000e-04  eta: 0:17:48  time: 0.1820  data_time: 0.0001  memory: 3001  loss: 0.6785
+2023/08/01 12:12:28 - mmengine - INFO - Epoch(train)  [8][2500/2731]  lr: 1.0000e-04  eta: 0:17:29  time: 0.1842  data_time: 0.0005  memory: 3001  loss: 0.5754
+2023/08/01 12:12:47 - mmengine - INFO - Epoch(train)  [8][2600/2731]  lr: 1.0000e-04  eta: 0:17:11  time: 0.1818  data_time: 0.0005  memory: 3001  loss: 0.4740
+2023/08/01 12:13:05 - mmengine - INFO - Epoch(train)  [8][2700/2731]  lr: 1.0000e-04  eta: 0:16:52  time: 0.1817  data_time: 0.0005  memory: 3001  loss: 0.4142
+2023/08/01 12:13:10 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 12:13:10 - mmengine - INFO - Saving checkpoint at 8 epochs
+2023/08/01 12:13:20 - mmengine - INFO - Epoch(val)  [8][100/168]    eta: 0:00:06  time: 0.0892  data_time: 0.0004  memory: 3001  
+2023/08/01 12:13:26 - mmengine - INFO - Epoch(val) [8][168/168]    accuracy/top1: 87.8053  accuracy/top5: 97.2403  data_time: 0.0023  time: 0.0905
+2023/08/01 12:13:45 - mmengine - INFO - Epoch(train)  [9][ 100/2731]  lr: 1.0000e-05  eta: 0:16:28  time: 0.1854  data_time: 0.0009  memory: 3001  loss: 0.6325
+2023/08/01 12:13:54 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 12:14:03 - mmengine - INFO - Epoch(train)  [9][ 200/2731]  lr: 1.0000e-05  eta: 0:16:10  time: 0.1862  data_time: 0.0004  memory: 3001  loss: 0.5713
+2023/08/01 12:14:22 - mmengine - INFO - Epoch(train)  [9][ 300/2731]  lr: 1.0000e-05  eta: 0:15:51  time: 0.1871  data_time: 0.0003  memory: 3001  loss: 0.5666
+2023/08/01 12:14:40 - mmengine - INFO - Epoch(train)  [9][ 400/2731]  lr: 1.0000e-05  eta: 0:15:33  time: 0.1811  data_time: 0.0005  memory: 3001  loss: 0.6612
+2023/08/01 12:14:58 - mmengine - INFO - Epoch(train)  [9][ 500/2731]  lr: 1.0000e-05  eta: 0:15:14  time: 0.1813  data_time: 0.0006  memory: 3001  loss: 0.4587
+2023/08/01 12:15:17 - mmengine - INFO - Epoch(train)  [9][ 600/2731]  lr: 1.0000e-05  eta: 0:14:56  time: 0.1805  data_time: 0.0005  memory: 3001  loss: 0.4084
+2023/08/01 12:15:35 - mmengine - INFO - Epoch(train)  [9][ 700/2731]  lr: 1.0000e-05  eta: 0:14:37  time: 0.1832  data_time: 0.0007  memory: 3001  loss: 0.5115
+2023/08/01 12:15:53 - mmengine - INFO - Epoch(train)  [9][ 800/2731]  lr: 1.0000e-05  eta: 0:14:19  time: 0.1821  data_time: 0.0005  memory: 3001  loss: 0.5019
+2023/08/01 12:16:12 - mmengine - INFO - Epoch(train)  [9][ 900/2731]  lr: 1.0000e-05  eta: 0:14:00  time: 0.1828  data_time: 0.0007  memory: 3001  loss: 0.5009
+2023/08/01 12:16:30 - mmengine - INFO - Epoch(train)  [9][1000/2731]  lr: 1.0000e-05  eta: 0:13:42  time: 0.1819  data_time: 0.0007  memory: 3001  loss: 0.5569
+2023/08/01 12:16:48 - mmengine - INFO - Epoch(train)  [9][1100/2731]  lr: 1.0000e-05  eta: 0:13:24  time: 0.1849  data_time: 0.0005  memory: 3001  loss: 0.3593
+2023/08/01 12:16:58 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 12:17:07 - mmengine - INFO - Epoch(train)  [9][1200/2731]  lr: 1.0000e-05  eta: 0:13:05  time: 0.1838  data_time: 0.0005  memory: 3001  loss: 0.8039
+2023/08/01 12:17:25 - mmengine - INFO - Epoch(train)  [9][1300/2731]  lr: 1.0000e-05  eta: 0:12:47  time: 0.1822  data_time: 0.0009  memory: 3001  loss: 0.5371
+2023/08/01 12:17:43 - mmengine - INFO - Epoch(train)  [9][1400/2731]  lr: 1.0000e-05  eta: 0:12:28  time: 0.1835  data_time: 0.0006  memory: 3001  loss: 0.6630
+2023/08/01 12:18:02 - mmengine - INFO - Epoch(train)  [9][1500/2731]  lr: 1.0000e-05  eta: 0:12:10  time: 0.1838  data_time: 0.0006  memory: 3001  loss: 0.6355
+2023/08/01 12:18:20 - mmengine - INFO - Epoch(train)  [9][1600/2731]  lr: 1.0000e-05  eta: 0:11:51  time: 0.1826  data_time: 0.0006  memory: 3001  loss: 0.4872
+2023/08/01 12:18:38 - mmengine - INFO - Epoch(train)  [9][1700/2731]  lr: 1.0000e-05  eta: 0:11:33  time: 0.1919  data_time: 0.0004  memory: 3001  loss: 0.5951
+2023/08/01 12:18:57 - mmengine - INFO - Epoch(train)  [9][1800/2731]  lr: 1.0000e-05  eta: 0:11:14  time: 0.1825  data_time: 0.0007  memory: 3001  loss: 0.8222
+2023/08/01 12:19:15 - mmengine - INFO - Epoch(train)  [9][1900/2731]  lr: 1.0000e-05  eta: 0:10:56  time: 0.1857  data_time: 0.0006  memory: 3001  loss: 0.4559
+2023/08/01 12:19:34 - mmengine - INFO - Epoch(train)  [9][2000/2731]  lr: 1.0000e-05  eta: 0:10:38  time: 0.1830  data_time: 0.0006  memory: 3001  loss: 0.6211
+2023/08/01 12:19:52 - mmengine - INFO - Epoch(train)  [9][2100/2731]  lr: 1.0000e-05  eta: 0:10:19  time: 0.1857  data_time: 0.0007  memory: 3001  loss: 0.3533
+2023/08/01 12:20:02 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 12:20:10 - mmengine - INFO - Epoch(train)  [9][2200/2731]  lr: 1.0000e-05  eta: 0:10:01  time: 0.1851  data_time: 0.0002  memory: 3001  loss: 0.4424
+2023/08/01 12:20:29 - mmengine - INFO - Epoch(train)  [9][2300/2731]  lr: 1.0000e-05  eta: 0:09:42  time: 0.1814  data_time: 0.0008  memory: 3001  loss: 0.5612
+2023/08/01 12:20:47 - mmengine - INFO - Epoch(train)  [9][2400/2731]  lr: 1.0000e-05  eta: 0:09:24  time: 0.1822  data_time: 0.0005  memory: 3001  loss: 0.6145
+2023/08/01 12:21:05 - mmengine - INFO - Epoch(train)  [9][2500/2731]  lr: 1.0000e-05  eta: 0:09:05  time: 0.1873  data_time: 0.0006  memory: 3001  loss: 0.5682
+2023/08/01 12:21:24 - mmengine - INFO - Epoch(train)  [9][2600/2731]  lr: 1.0000e-05  eta: 0:08:47  time: 0.1861  data_time: 0.0008  memory: 3001  loss: 0.4699
+2023/08/01 12:21:42 - mmengine - INFO - Epoch(train)  [9][2700/2731]  lr: 1.0000e-05  eta: 0:08:28  time: 0.1839  data_time: 0.0006  memory: 3001  loss: 0.5349
+2023/08/01 12:21:48 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 12:21:48 - mmengine - INFO - Saving checkpoint at 9 epochs
+2023/08/01 12:21:57 - mmengine - INFO - Epoch(val)  [9][100/168]    eta: 0:00:06  time: 0.0884  data_time: 0.0006  memory: 3001  
+2023/08/01 12:22:03 - mmengine - INFO - Epoch(val) [9][168/168]    accuracy/top1: 88.5698  accuracy/top5: 97.3149  data_time: 0.0022  time: 0.0901
+2023/08/01 12:22:22 - mmengine - INFO - Epoch(train) [10][ 100/2731]  lr: 1.0000e-05  eta: 0:08:04  time: 0.1846  data_time: 0.0007  memory: 3001  loss: 0.5109
+2023/08/01 12:22:40 - mmengine - INFO - Epoch(train) [10][ 200/2731]  lr: 1.0000e-05  eta: 0:07:46  time: 0.1810  data_time: 0.0004  memory: 3001  loss: 0.4210
+2023/08/01 12:22:59 - mmengine - INFO - Epoch(train) [10][ 300/2731]  lr: 1.0000e-05  eta: 0:07:27  time: 0.1790  data_time: 0.0007  memory: 3001  loss: 0.4673
+2023/08/01 12:23:17 - mmengine - INFO - Epoch(train) [10][ 400/2731]  lr: 1.0000e-05  eta: 0:07:09  time: 0.1844  data_time: 0.0006  memory: 3001  loss: 0.5906
+2023/08/01 12:23:21 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 12:23:35 - mmengine - INFO - Epoch(train) [10][ 500/2731]  lr: 1.0000e-05  eta: 0:06:51  time: 0.1823  data_time: 0.0007  memory: 3001  loss: 0.6034
+2023/08/01 12:23:53 - mmengine - INFO - Epoch(train) [10][ 600/2731]  lr: 1.0000e-05  eta: 0:06:32  time: 0.1826  data_time: 0.0005  memory: 3001  loss: 0.4886
+2023/08/01 12:24:11 - mmengine - INFO - Epoch(train) [10][ 700/2731]  lr: 1.0000e-05  eta: 0:06:14  time: 0.1818  data_time: 0.0004  memory: 3001  loss: 0.6801
+2023/08/01 12:24:29 - mmengine - INFO - Epoch(train) [10][ 800/2731]  lr: 1.0000e-05  eta: 0:05:55  time: 0.1784  data_time: 0.0005  memory: 3001  loss: 0.5253
+2023/08/01 12:24:48 - mmengine - INFO - Epoch(train) [10][ 900/2731]  lr: 1.0000e-05  eta: 0:05:37  time: 0.1794  data_time: 0.0004  memory: 3001  loss: 0.4709
+2023/08/01 12:25:06 - mmengine - INFO - Epoch(train) [10][1000/2731]  lr: 1.0000e-05  eta: 0:05:18  time: 0.1805  data_time: 0.0003  memory: 3001  loss: 0.7322
+2023/08/01 12:25:24 - mmengine - INFO - Epoch(train) [10][1100/2731]  lr: 1.0000e-05  eta: 0:05:00  time: 0.1816  data_time: 0.0005  memory: 3001  loss: 0.5977
+2023/08/01 12:25:42 - mmengine - INFO - Epoch(train) [10][1200/2731]  lr: 1.0000e-05  eta: 0:04:41  time: 0.1773  data_time: 0.0004  memory: 3001  loss: 0.5656
+2023/08/01 12:26:00 - mmengine - INFO - Epoch(train) [10][1300/2731]  lr: 1.0000e-05  eta: 0:04:23  time: 0.1811  data_time: 0.0008  memory: 3001  loss: 0.5978
+2023/08/01 12:26:18 - mmengine - INFO - Epoch(train) [10][1400/2731]  lr: 1.0000e-05  eta: 0:04:05  time: 0.1780  data_time: 0.0003  memory: 3001  loss: 0.5416
+2023/08/01 12:26:22 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 12:26:36 - mmengine - INFO - Epoch(train) [10][1500/2731]  lr: 1.0000e-05  eta: 0:03:46  time: 0.1796  data_time: 0.0005  memory: 3001  loss: 0.7353
+2023/08/01 12:26:54 - mmengine - INFO - Epoch(train) [10][1600/2731]  lr: 1.0000e-05  eta: 0:03:28  time: 0.1806  data_time: 0.0009  memory: 3001  loss: 0.6528
+2023/08/01 12:27:12 - mmengine - INFO - Epoch(train) [10][1700/2731]  lr: 1.0000e-05  eta: 0:03:09  time: 0.1822  data_time: 0.0006  memory: 3001  loss: 0.5110
+2023/08/01 12:27:30 - mmengine - INFO - Epoch(train) [10][1800/2731]  lr: 1.0000e-05  eta: 0:02:51  time: 0.1821  data_time: 0.0004  memory: 3001  loss: 0.5121
+2023/08/01 12:27:49 - mmengine - INFO - Epoch(train) [10][1900/2731]  lr: 1.0000e-05  eta: 0:02:32  time: 0.1876  data_time: 0.0006  memory: 3001  loss: 0.5720
+2023/08/01 12:28:07 - mmengine - INFO - Epoch(train) [10][2000/2731]  lr: 1.0000e-05  eta: 0:02:14  time: 0.1811  data_time: 0.0008  memory: 3001  loss: 0.5619
+2023/08/01 12:28:25 - mmengine - INFO - Epoch(train) [10][2100/2731]  lr: 1.0000e-05  eta: 0:01:56  time: 0.1849  data_time: 0.0003  memory: 3001  loss: 0.4605
+2023/08/01 12:28:44 - mmengine - INFO - Epoch(train) [10][2200/2731]  lr: 1.0000e-05  eta: 0:01:37  time: 0.1814  data_time: 0.0006  memory: 3001  loss: 0.5356
+2023/08/01 12:29:02 - mmengine - INFO - Epoch(train) [10][2300/2731]  lr: 1.0000e-05  eta: 0:01:19  time: 0.1858  data_time: 0.0005  memory: 3001  loss: 0.5306
+2023/08/01 12:29:20 - mmengine - INFO - Epoch(train) [10][2400/2731]  lr: 1.0000e-05  eta: 0:01:00  time: 0.1829  data_time: 0.0002  memory: 3001  loss: 0.5744
+2023/08/01 12:29:24 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 12:29:38 - mmengine - INFO - Epoch(train) [10][2500/2731]  lr: 1.0000e-05  eta: 0:00:42  time: 0.1818  data_time: 0.0006  memory: 3001  loss: 0.4723
+2023/08/01 12:29:57 - mmengine - INFO - Epoch(train) [10][2600/2731]  lr: 1.0000e-05  eta: 0:00:24  time: 0.1824  data_time: 0.0007  memory: 3001  loss: 0.6364
+2023/08/01 12:30:15 - mmengine - INFO - Epoch(train) [10][2700/2731]  lr: 1.0000e-05  eta: 0:00:05  time: 0.1812  data_time: 0.0005  memory: 3001  loss: 0.6416
+2023/08/01 12:30:21 - mmengine - INFO - Exp name: efficientnet-b1_1xb16_ingarbage_20230801_110349
+2023/08/01 12:30:21 - mmengine - INFO - Saving checkpoint at 10 epochs
+2023/08/01 12:30:31 - mmengine - INFO - Epoch(val) [10][100/168]    eta: 0:00:06  time: 0.0901  data_time: 0.0004  memory: 3001  
+2023/08/01 12:30:37 - mmengine - INFO - Epoch(val) [10][168/168]    accuracy/top1: 88.3461  accuracy/top5: 97.3336  data_time: 0.0027  time: 0.0919
